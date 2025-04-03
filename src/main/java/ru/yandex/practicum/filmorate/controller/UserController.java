@@ -98,12 +98,12 @@ public class UserController {
             e.printStackTrace();
         }
 
-        Long ID = newUser.getId();
+        Long id = newUser.getId();
 
-        if (users.containsKey(ID)) {
+        if (users.containsKey(id)) {
             // если публикация найдена и все условия соблюдены, обновляем её содержимое
-            User oldUser = users.get(ID);
-            users.replace(ID, newUser);
+            User oldUser = users.get(id);
+            users.replace(id, newUser);
             log.info("Изменили данные пользователя" + oldUser);
             return newUser;
         }

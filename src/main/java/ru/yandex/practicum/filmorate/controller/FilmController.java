@@ -83,10 +83,10 @@ public class FilmController {
             e.printStackTrace();
         }
 
-        Long ID = newFilm.getId();
-        if (films.containsKey(ID)) {
-            Film oldFilm = films.get(ID);
-            films.replace(ID, newFilm);
+        Long id = newFilm.getId();
+        if (films.containsKey(id)) {
+            Film oldFilm = films.get(id);
+            films.replace(id, newFilm);
             log.info("Изменили данные по фильму" + oldFilm);
 
             return newFilm;
