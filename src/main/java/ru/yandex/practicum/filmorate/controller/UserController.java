@@ -32,7 +32,7 @@ public class UserController {
 
 //        логин не может быть пустым и содержать пробелы;
 
-        if (user.getLogin().isEmpty() || user.getLogin() == null || user.getLogin().length() == 0 ) {
+        if (user.getLogin().isEmpty() || user.getLogin() == null || user.getLogin().length() == 0) {
             throw new ValidationException("User: логин не может быть пустым");
         }
 
