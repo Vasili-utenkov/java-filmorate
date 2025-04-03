@@ -20,7 +20,7 @@ public class User {
     private String login;
 
     //    имя для отображения —
-    private String name;
+    private String name = "";
     //    дата рождения —
     @PastOrPresent(message = "Дата рождения не может быть в будущем")
     private LocalDate birthday;
