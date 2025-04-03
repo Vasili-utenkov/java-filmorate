@@ -98,11 +98,14 @@ public class UserController {
             e.printStackTrace();
         }
 
-        if (users.containsKey(newUser.getId())) {
-            User oldUser = users.get(newUser.getId());
+        Long ID = newUser.getId();
+
+        if (users.containsKey(ID)) {
             // если публикация найдена и все условия соблюдены, обновляем её содержимое
+            User oldUser = users.get(ID);
+            users.replace(ID, newUser);
             log.info("Изменили данные пользователя" + oldUser);
-            return oldUser;
+            return newUser;
         }
         throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
 

@@ -82,9 +82,14 @@ public class FilmController {
         } catch (ValidationException e) {
             e.printStackTrace();
         }
-        if (films.containsKey(newFilm.getId())) {
-            Film oldFilm = films.get(newFilm.getId());
-            return oldFilm;
+
+        Long ID = newFilm.getId();
+        if (films.containsKey(ID)) {
+            Film oldFilm = films.get(ID);
+            films.replace(ID, newFilm);
+            log.info("Изменили данные по фильму" + oldFilm);
+
+            return newFilm;
         }
 
         throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
