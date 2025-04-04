@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -13,76 +14,130 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class FilmTest {
 
-    private void testResult(Film film, boolean isOk) {
+    private void testResult (Film film, boolean isOk) {
         testResult(film, isOk, "");
     }
 
 
-    private void testResult(Film film, boolean isOk, String message) {
+    private void testResult (Film film, boolean isOk, String message) {
+
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Set<ConstraintViolation<Film>> violations = factory.getValidator().validate(film);
-        if (isOk) {
-            assertTrue(violations.isEmpty());
-        } else {
-            assertFalse(violations.isEmpty());
-        }
+
         if (violations.size() > 0) {
             violations.forEach(violation -> System.out.println(violation.getMessage()));
         }
         if (message.length() > 0) {
             assertTrue(violations.stream().anyMatch(violation -> violation.getMessage().equals(message)));
         }
+
+        if (isOk) {
+            assertTrue(violations.isEmpty());
+        } else {
+            assertFalse(violations.isEmpty());
+        }
+
     }
 
+
+    @DisplayName("Положительный тест: общий")
     @Test
     void validateOK() {
         Film film = new Film();
         film.setName("Name");
         film.setDescription("Description");
         film.setReleaseDate(LocalDate.now());
-        film.setDuration(100);
+        film.setDuration(200);
+
+        testResult(film, true);
+    }
+
+    @DisplayName("Название фильма не может быть пустым")
+    @Test
+    void blankName() {
+        Film film = new Film();
+        film.setName("");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.now());
+        film.setDuration(200);
+
+        testResult(film, false);
+    }
+
+
+    @DisplayName("Положительный тест: длина описания фильма — 200 символов")
+    @Test
+    void descriptionLength200() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("q".repeat(20));
+        film.setReleaseDate(LocalDate.now());
+        film.setDuration(200);
 
         testResult(film, true);
     }
 
 
+    @DisplayName("Максимальная длина описания фильма — 200 символов")
     @Test
-    void validateNotOK() {
+    void descriptionLength201() {
         Film film = new Film();
-
         film.setName("Name");
-        film.setDescription("Description");
-        film.setReleaseDate(LocalDate.now());
-        film.setDuration(100);
-
-
-//        название не может быть пустым;
-        film.setName("");
-        testResult(film, false);
-
-        film.setName("Name");
-
-
-        film.setDescription("");
-//        максимальная длина описания — 200 символов;
-        testResult(film, false);
-
         film.setDescription("q".repeat(201));
-        testResult(film, false);
-
-        film.setDescription("Description");
-
-//        дата релиза — не раньше 28 декабря 1895 года;
-        film.setReleaseDate(LocalDate.of(1895, 12, 27));
-        testResult(film, false);
-
         film.setReleaseDate(LocalDate.now());
+        film.setDuration(200);
 
-//        продолжительность фильма должна быть положительным числом.
-        film.setDuration(0);
         testResult(film, false);
+    }
+
+    @DisplayName("Описание фильма не может быть пустым")
+    @Test
+    void blankDescription() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("");
+        film.setReleaseDate(LocalDate.now());
+        film.setDuration(200);
+
+        testResult(film, false);
+    }
 
 
+    @DisplayName("Положительный тест: Дата релиза фильма 29 декабря 1895 года")
+    @Test
+    void releaseDate18951229() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.of(1895,12,29));
+        film.setDuration(200);
+
+        testResult(film, true);
+    }
+
+
+    @DisplayName("Дата релиза фильма не может быть раньше 28 декабря 1895 года")
+    @Test
+    void releaseDate18951228() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.of(1895,12,28));
+        film.setDuration(200);
+
+        testResult(film, false);
+    }
+
+    @DisplayName("Продолжительность фильма должна быть положительным числом")
+    @Test
+    void negativeDuration() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.now());
+        film.setDuration(-1);
+
+        testResult(film, false);
     }
 
 }
