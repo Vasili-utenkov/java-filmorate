@@ -27,7 +27,9 @@ class UserTest {
             violations.forEach(violation -> System.out.println(violation.getMessage()));
         }
         if (message.length() > 0) {
-            assertTrue(violations.stream().anyMatch(violation -> violation.getMessage().equals(message)));
+            if (!violations.stream().anyMatch(violation -> violation.getMessage().equals(message))) {
+                assertEquals(message, violations.stream().anyMatch(violation -> violation.getMessage().equals(message)));
+            }
         }
 
         if (isOk) {
@@ -61,7 +63,7 @@ class UserTest {
         user.setEmail(""); // Пустая строка
         user.setBirthday(LocalDate.now());
 
-        testResult(user, false);
+        testResult(user, false, "Электронная почта не может быть пустой");
     }
 
     @DisplayName("Не верный формат для электронной почты")

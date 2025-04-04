@@ -28,7 +28,9 @@ public class FilmTest {
             violations.forEach(violation -> System.out.println(violation.getMessage()));
         }
         if (message.length() > 0) {
-            assertTrue(violations.stream().anyMatch(violation -> violation.getMessage().equals(message)));
+            if (!violations.stream().anyMatch(violation -> violation.getMessage().equals(message))) {
+                assertEquals(message, violations.stream().anyMatch(violation -> violation.getMessage().equals(message)));
+            }
         }
 
         if (isOk) {
