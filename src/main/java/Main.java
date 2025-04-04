@@ -1,8 +1,6 @@
 
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.validator.FilmValidator;
-import ru.yandex.practicum.filmorate.validator.UserValidator;
 
 import java.time.LocalDate;
 
@@ -16,8 +14,6 @@ public class Main {
         film.setDuration(-120); // Отрицательная продолжительность
 
         // Создайте валидатор
-        FilmValidator filmValidator = new FilmValidator();
-        filmValidator.validate(film);
 
 
         User user = new User();
@@ -26,26 +22,8 @@ public class Main {
         user.setName(""); // Пустое имя
         user.setBirthday(LocalDate.now().minusDays(1)); // Дата рождения в будущем
 
-        /*
         // Создайте валидатор
-        ValidatorFactory factoryUser = Validation.buildDefaultValidatorFactory();
-        Validator validatorUser = factoryUser.getValidator();
 
-        // Проверьте пользователя
-        var violationsUser = validatorUser.validate(user);
-
-        if (!violationsUser.isEmpty()) {
-            violationsUser.forEach(violation ->
-                    System.out.println(violation.getMessage())
-            );
-        } else {
-            System.out.println("Пользователь успешно добавлен");
-        }
-
-         */
-
-        UserValidator userValidator = new UserValidator();
-        userValidator.validate(user);
 
     }
 }
