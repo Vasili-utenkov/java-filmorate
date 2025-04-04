@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class FilmTest {
 
     private void testResult(Film film, boolean isOk) {
-        testResult (film, isOk, "");
+        testResult(film, isOk, "");
     }
 
 
