@@ -13,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
 
-    private void testResult (User user, boolean isOk) {
+    private void testResult(User user, boolean isOk) {
         testResult(user, isOk, "");
     }
 
 
-    private void testResult (User user, boolean isOk, String message) {
+    private void testResult(User user, boolean isOk, String message) {
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Set<ConstraintViolation<User>> violations = factory.getValidator().validate(user);

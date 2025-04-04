@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class FilmTest {
 
-    private void testResult (Film film, boolean isOk) {
-        testResult(film, isOk, "");
+    private void testResult(Film film, boolean isOk) {
+        testResult (film, isOk, "");
     }
 
 
-    private void testResult (Film film, boolean isOk, String message) {
+    private void testResult(Film film, boolean isOk, String message) {
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Set<ConstraintViolation<Film>> violations = factory.getValidator().validate(film);
