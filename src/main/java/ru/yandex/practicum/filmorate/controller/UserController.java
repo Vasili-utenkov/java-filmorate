@@ -28,9 +28,8 @@ public class UserController {
     @PostMapping
     public User addUser(@Valid @RequestBody User user) {
         // имя для отображения может быть пустым — в таком случае будет использован логин;
-        if (user.getName() == null || user.getName().isBlank()) {
-            user.setName(user.getLogin());
-        }
+        user.setNameThenNull();
+
         user.setId(getNextID());
         log.info("Добавили пользователя" + user);
         users.put(user.getId(), user);
@@ -49,9 +48,7 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User newUser) {
         // имя для отображения может быть пустым — в таком случае будет использован логин;
-        if (newUser.getName() == null || newUser.getName().isBlank()) {
-            newUser.setName(newUser.getLogin());
-        }
+        newUser.setNameThenNull();
 
         Long id = newUser.getId();
         if (users.containsKey(id)) {
@@ -64,6 +61,5 @@ public class UserController {
         throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
 
     }
-
 
 }
