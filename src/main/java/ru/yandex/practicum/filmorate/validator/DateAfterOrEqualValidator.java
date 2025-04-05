@@ -17,6 +17,6 @@ public class DateAfterOrEqualValidator implements ConstraintValidator<DateAfterO
 
     @Override
     public boolean isValid(LocalDate releaseDate, ConstraintValidatorContext context) {
-        return releaseDate.isAfter(parsedMinDate);
+        return releaseDate != null && releaseDate.isAfter(parsedMinDate);
     }
 }
