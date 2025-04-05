@@ -72,13 +72,12 @@ public class FilmTest {
     void descriptionLength200() {
         Film film = new Film();
         film.setName("Name");
-        film.setDescription("q".repeat(20));
+        film.setDescription("q".repeat(200));
         film.setReleaseDate(LocalDate.now());
         film.setDuration(200);
 
         testResult(film, true);
     }
-
 
     @DisplayName("Максимальная длина описания фильма — 200 символов")
     @Test
@@ -88,20 +87,19 @@ public class FilmTest {
         film.setDescription("q".repeat(201));
         film.setReleaseDate(LocalDate.now());
         film.setDuration(200);
-
         testResult(film, false);
     }
 
-    @DisplayName("Описание фильма не может быть пустым")
+
+
+    @DisplayName("Положительный тест: Описание фильма пустое")
     @Test
-    void blankDescription() {
+    void nullDescription() {
         Film film = new Film();
         film.setName("Name");
-        film.setDescription("");
         film.setReleaseDate(LocalDate.now());
         film.setDuration(200);
-
-        testResult(film, false);
+        testResult(film, true);
     }
 
 

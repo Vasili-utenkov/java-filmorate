@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.validator.DateAfterOrEqual;
+import ru.yandex.practicum.filmorate.validator.DescriptionIsNullOrLessThen;
 
 import java.time.LocalDate;
 
@@ -20,8 +21,10 @@ public class Film {
     @NotBlank(message = "Название фильма не может быть пустым")
     private String name;
     //    описание —
-    @Size(min = 1, max = 200, message = "Максимальная длина описания фильма — 200 символов")
-    @NotBlank(message = "Описание фильма не может быть пустым")
+    @DescriptionIsNullOrLessThen(
+            maxLength = 200,
+            message = "максимальная длина описания — 200 символов"
+    )
     private String description;
     //    дата релиза —
     @DateAfterOrEqual(
@@ -31,7 +34,7 @@ public class Film {
     private LocalDate releaseDate;
     //    продолжительность фильма —
     @NotNull(message = "Продолжительность фильма должна быть задана")
-    @Min(value = 1,message = "Продолжительность фильма должна быть положительным числом")
+    @Min(value = 1, message = "Продолжительность фильма должна быть положительным числом")
     private Integer duration;
 
 }
