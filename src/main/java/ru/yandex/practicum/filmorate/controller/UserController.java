@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping
     public User addUser(@Valid @RequestBody User user) {
         // имя для отображения может быть пустым — в таком случае будет использован логин;
-        if (user.getName().isBlank() || user.getName() == null) {
+        if (user.getName() == null || user.getName().isBlank()) {
             user.setName(user.getLogin());
         }
         user.setId(getNextID());
@@ -49,7 +49,7 @@ public class UserController {
     @PutMapping
     public User updateUser(@Valid @RequestBody User newUser) {
         // имя для отображения может быть пустым — в таком случае будет использован логин;
-        if (newUser.getName().isBlank() || newUser.getName() == null) {
+        if (newUser.getName() == null || newUser.getName().isBlank()) {
             newUser.setName(newUser.getLogin());
         }
 

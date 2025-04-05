@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -126,6 +127,18 @@ public class FilmTest {
         film.setDescription("Description");
         film.setReleaseDate(LocalDate.of(1895,12,28));
         film.setDuration(200);
+
+        testResult(film, false);
+    }
+
+
+    @DisplayName("Продолжительность фильма должна быть задана")
+    @Test
+    void nullDuration() {
+        Film film = new Film();
+        film.setName("Name");
+        film.setDescription("Description");
+        film.setReleaseDate(LocalDate.now());
 
         testResult(film, false);
     }

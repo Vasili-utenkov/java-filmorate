@@ -30,6 +30,7 @@ public class Film {
     )
     private LocalDate releaseDate;
     //    продолжительность фильма —
+    @NotNull(message = "Продолжительность фильма должна быть задана")
     @Min(value = 1,message = "Продолжительность фильма должна быть положительным числом")
     private Integer duration;
 
