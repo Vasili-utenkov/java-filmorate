@@ -66,7 +66,7 @@ public class UserController {
 
     // Общий список друзей с другим пользователем
     @GetMapping("/{id}/friends/common/{otherId}")
-    public List<User> getCommonFriends(@PathVariable("id") Long friendId1, @PathVariable("friendId") Long friendId2) {
+    public List<User> getCommonFriends(@PathVariable("id") Long friendId1, @PathVariable("otherId") Long friendId2) {
         return service.getCommonFriends(friendId1, friendId2);
     }
 

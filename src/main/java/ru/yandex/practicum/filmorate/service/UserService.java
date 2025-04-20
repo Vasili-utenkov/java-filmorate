@@ -55,11 +55,9 @@ public class UserService {
 
     //     вывод списка общих друзей
     public List<User> getCommonFriends(Long friendId1, Long friendId2) {
-        Set<Long> userFriends = friends.get(friendId1);
-        Set<Long> otherFriends = friends.get(friendId2);
 
-        return userFriends.stream()
-                .filter(otherFriends::contains)
+        return friends.get(friendId1).stream()
+                .filter(friends.get(friendId2)::contains)
                 .map(storage::getById)
                 .collect(Collectors.toList());
     }
