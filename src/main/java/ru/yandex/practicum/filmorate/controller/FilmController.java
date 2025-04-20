@@ -2,57 +2,66 @@ package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 @Slf4j
 @RestController
 @RequestMapping("/films")
 public class FilmController {
 
-    private final Map<Long, Film> films = new HashMap<>();
+
+    @Autowired
+    InMemoryFilmStorage storage;
+
+    @Autowired
+    private FilmService service;
+
 
     //    получение всех фильмов.
     @GetMapping
     public Collection<Film> getFilms() {
-        log.info("Запрос списка фильмов");
-        return films.values();
+        return storage.getAll();
     }
 
     //    добавление фильма;
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) {
-        film.setId(getNextID());
-        log.info("Добавили фильм" + film);
-        films.put(film.getId(), film);
-        return film;
-    }
-
-    private long getNextID() {
-        long l = films.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++l;
+        return storage.create(film);
     }
 
     //    обновление фильма;
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film newFilm) {
-        Long id = newFilm.getId();
-        if (films.containsKey(id)) {
-            Film oldFilm = films.get(id);
-            films.replace(id, newFilm);
-            log.info("Изменили данные по фильму" + oldFilm);
-            return newFilm;
-        }
+        return storage.update(newFilm);
+    }
 
-        throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
+    // Поставить лайк фильму
+    @PutMapping("/{id}/like/{userId}")
+    public ResponseEntity<Void> likeFilm(@PathVariable Long id, @PathVariable Long userId) {
+        service.addLike(id, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    // Удалить лайк фильма
+    @DeleteMapping("/{id}/like/{userId}")
+    public ResponseEntity<Void> unlikeFilm(@PathVariable Long id, @PathVariable Long userId) {
+        service.removeLike(id, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    // Вернуть фильмы по популярности
+    @GetMapping("/popular")
+    public List<Film> getPopularFilms(@RequestParam(required = false, defaultValue = "10") Integer count) {
+        return service.getTopPopularFilms(count);
     }
 
 }
