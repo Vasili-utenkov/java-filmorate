@@ -15,11 +15,12 @@ import java.util.Map;
 @Component
 public class InMemoryUserStorage extends AbstractStorage<User>  implements UserStorage {
 
-    private final Map<Long, User> users = new HashMap<>();
+    private final Map<Long, User> users;// = new HashMap<>();
     UserService service;
 
     public InMemoryUserStorage(UserService service) {
         this.service = service;
+        this.users = storage;
     }
 
     @Override

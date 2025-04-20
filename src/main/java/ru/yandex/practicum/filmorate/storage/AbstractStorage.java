@@ -12,7 +12,7 @@ import java.util.HashMap;
 @Slf4j
 @Component
 public class AbstractStorage<T extends AbstaractType> implements Storage<T> {
-    private final HashMap<Long, T> storage = new HashMap<>();
+    final HashMap<Long, T> storage = new HashMap<>();
 
     @Override
     public T create(T data) {

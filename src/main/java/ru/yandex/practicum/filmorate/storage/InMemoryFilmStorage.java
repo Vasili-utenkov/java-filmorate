@@ -12,11 +12,12 @@ import java.util.*;
 @Component
 public class InMemoryFilmStorage extends AbstractStorage<Film> implements FilmStorage {
 
-    private final Map<Long, Film> films = new HashMap<>();
+    private final Map<Long, Film> films;// = new HashMap<>();
     private final FilmService service; // ссылка на сервис для удаления лайков
 
     public InMemoryFilmStorage(FilmService service) {
         this.service = service;
+        this.films = storage;
     }
 
 
@@ -25,6 +26,7 @@ public class InMemoryFilmStorage extends AbstractStorage<Film> implements FilmSt
         film.setId(getNextID());
         log.info("Добавили фильм" + film);
         film = super.create(film);
+        log.info("Добавили мапу лайков для фильма " + film);
         service.addLikesEmptySet(film.getId());
         return film;
     }
