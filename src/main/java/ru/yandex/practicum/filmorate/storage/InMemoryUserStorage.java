@@ -18,13 +18,18 @@ public class InMemoryUserStorage extends AbstractStorage<User>  implements UserS
     private final Map<Long, User> users = new HashMap<>();
     UserService service;
 
+    public InMemoryUserStorage(UserService service) {
+        this.service = service;
+    }
+
     @Override
     public User create(User user) {
         // имя для отображения может быть пустым — в таком случае будет использован логин;
         user.setNameThenNull();
         user.setId(getNextID());
-        log.info("Добавили пользователя" + user);
+        log.info("Добавили пользователя " + user);
         user = super.create(user);
+        log.info("Добавили мапу для пользователя " + user);
         service.addEmptyFriendsSet(user.getId());
         return user;
     }

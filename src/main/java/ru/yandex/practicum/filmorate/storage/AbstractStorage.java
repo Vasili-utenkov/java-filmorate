@@ -1,12 +1,15 @@
 package ru.yandex.practicum.filmorate.storage;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.AlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.AbstaractType;
+
 import java.util.Collection;
 import java.util.HashMap;
 
+@Slf4j
 @Component
 public class AbstractStorage<T extends AbstaractType> implements Storage<T> {
     private final HashMap<Long, T> storage = new HashMap<>();
@@ -17,7 +20,8 @@ public class AbstractStorage<T extends AbstaractType> implements Storage<T> {
         if (storage.containsKey(data.getId())) {
             throw new AlreadyExistException("Существует запись с кодом " + data.getId());
         }
-        return storage.put(data.getId(), data);
+        storage.put(data.getId(), data);
+        return data;
     }
 
     protected void checkNullId(T data) {
@@ -29,7 +33,8 @@ public class AbstractStorage<T extends AbstaractType> implements Storage<T> {
     @Override
     public T update(T data) {
         checkNullId(data);
-        return storage.replace(data.getId(), data);
+        storage.replace(data.getId(), data);
+        return data;
     }
 
     @Override
