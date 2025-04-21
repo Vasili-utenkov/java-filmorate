@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class InMemoryUserStorage extends AbstractStorage<User>  implements UserStorage {
+public class InMemoryUserStorage extends AbstractStorage<User> {
 
     private final Map<Long, User> users;
     UserService service;

@@ -10,7 +10,7 @@ import java.util.*;
 
 @Slf4j
 @Component
-public class InMemoryFilmStorage extends AbstractStorage<Film> implements FilmStorage {
+public class InMemoryFilmStorage extends AbstractStorage<Film> {
 
     private final Map<Long, Film> films;
     private final FilmService service; // ссылка на сервис для удаления лайков
