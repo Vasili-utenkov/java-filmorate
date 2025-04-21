@@ -16,6 +16,12 @@ public class FilmService {
 
     private final Map<Long, Set<Long>> filmLikes = new HashMap<>(); // ключ - id фильма, значение - множество id пользователей, которые лайкнули фильм
     private InMemoryFilmStorage storage;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setStorage(@Lazy InMemoryFilmStorage storage) {
@@ -26,6 +32,7 @@ public class FilmService {
     public void addLike(Long filmId, Long userId) {
 // + проверки - неизвестный пользователь, неизвестный фильм
         checkFilmContains(filmId);
+        checkUserContains(userId);
         Set<Long> likes = filmLikes.get(filmId);
 
         checkFilmContains(filmId);
@@ -38,6 +45,7 @@ public class FilmService {
     // Удаление лайка у фильма
     public void removeLike(Long filmId, Long userId) {
         checkFilmContains(filmId);
+        checkUserContains(userId);
         Set<Long> likes = filmLikes.get(filmId);
         if (likes == null || !likes.contains(userId)) {
             throw new NotFoundException("Лайк от пользователя " + userId + " не найден у фильма " + filmId);
@@ -64,10 +72,15 @@ public class FilmService {
         filmLikes.remove(filmId);
     }
 
-
     private void checkFilmContains(Long filmId) {
         if (!filmLikes.containsKey(filmId)) {
-            throw new NotFoundException("Переданный пользователь не найден id = " + filmId);
+            throw new NotFoundException("Переданный фильм не найден id = " + filmId);
+        }
+    }
+
+    private void checkUserContains(Long userId) {
+        if (!filmLikes.containsKey(userId)) {
+            throw new NotFoundException("Переданный пользователь не найден id = " + userId);
         }
     }
 
