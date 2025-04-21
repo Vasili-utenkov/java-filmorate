@@ -46,16 +46,22 @@ public class FilmController {
 
     // Поставить лайк фильму
     @PutMapping("/{id}/like/{userId}")
-    public ResponseEntity<Void> likeFilm(@PathVariable Long id, @PathVariable Long userId) {
+    public void likeFilm(@PathVariable Long id, @PathVariable Long userId) {
         service.addLike(id, userId);
-        return ResponseEntity.ok().build();
     }
 
     // Удалить лайк фильма
+/* 1
     @DeleteMapping("/{id}/like/{userId}")
     public ResponseEntity<Void> unlikeFilm(@PathVariable Long id, @PathVariable Long userId) {
         service.removeLike(id, userId);
         return ResponseEntity.ok().build();
+    }
+*/
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public void unlikeFilm(@PathVariable Long id, @PathVariable Long userId) {
+        service.removeLike(id, userId);
     }
 
     // Вернуть фильмы по популярности
