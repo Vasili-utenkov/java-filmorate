@@ -79,7 +79,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private void checkFriendContains(Long friendId) {
+    protected void checkFriendContains(Long friendId) {
         if (!friends.containsKey(friendId)) {
             throw new NotFoundException("Переданный пользователь не найден id = " + friendId);
         }

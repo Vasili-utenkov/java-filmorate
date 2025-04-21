@@ -79,9 +79,7 @@ public class FilmService {
     }
 
     private void checkUserContains(Long userId) {
-        if (!filmLikes.containsKey(userId)) {
-            throw new NotFoundException("Переданный пользователь не найден id = " + userId);
-        }
+        userService.checkFriendContains(userId);
     }
 
 
