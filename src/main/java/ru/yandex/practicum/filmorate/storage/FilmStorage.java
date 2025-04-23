@@ -1,64 +1,27 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 
-import java.util.*;
 
-@Slf4j
+import java.util.Collection;
+
 @Component
-@RequiredArgsConstructor
-public class FilmStorage extends AbstractStorage<Film> {
-    private final Map<Long, Film> films;
+public interface FilmStorage extends Storage<Film> {
 
     @Override
-    public Film create(Film film) {
-        film.setId(getNextID());
-        log.info("Добавили фильм" + film);
-        film = super.create(film);
-        return film;
-    }
+    Film create(Film film);
 
     @Override
-    public Film update(Film newFilm) {
-        Long id = newFilm.getId();
-        if (films.containsKey(id)) {
-            Film oldFilm = films.get(id);
-            films.replace(id, newFilm);
-            log.info("Изменили данные по фильму" + oldFilm);
-            return super.update(newFilm);
-        }
-
-        throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
-    }
+    Film update(Film film);
 
     @Override
-    public void delete(long id) {
-        log.info("Удалили фильм с id = " + id);
-        super.delete(id);
-    }
+    void delete(long id);
 
     @Override
-    public Film getById(long id) {
-        log.info("Получение фильма с id = " + id);
-        return super.getById(id);
-    }
+    Film getById(long id);
 
     @Override
-    public Collection<Film> getAll() {
-        log.info("Запрос списка фильмов");
-        return super.getAll();
-    }
-
-    private long getNextID() {
-        long l = films.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++l;
-    }
+    Collection<Film> getAll();
 
 }

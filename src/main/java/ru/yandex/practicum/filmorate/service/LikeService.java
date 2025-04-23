@@ -4,23 +4,23 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.storage.FilmStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.LikesStorage;
-import ru.yandex.practicum.filmorate.storage.UserStorage;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class LikeService {
 
-    private FilmStorage filmStorage;
+    private InMemoryFilmStorage inMemoryFilmStorage;
     private LikesStorage likesStorage;
-    private UserStorage userStorage;
+    private InMemoryUserStorage inMemoryUserStorage;
 
-    public LikeService(FilmStorage filmStorage, LikesStorage likesStorage, UserStorage userStorage) {
-        this.filmStorage = filmStorage;
+    public LikeService(InMemoryFilmStorage inMemoryFilmStorage, LikesStorage likesStorage, InMemoryUserStorage inMemoryUserStorage) {
+        this.inMemoryFilmStorage = inMemoryFilmStorage;
         this.likesStorage = likesStorage;
-        this.userStorage = userStorage;
+        this.inMemoryUserStorage = inMemoryUserStorage;
     }
 
     // Добавление лайка фильму
@@ -40,7 +40,7 @@ public class LikeService {
     public List<Film> getTopPopularFilms(Integer count) {
 
         return  likesStorage.getTopPopularFilmsId(count).stream()
-                .map(id -> filmStorage.getById(id))
+                .map(id -> inMemoryFilmStorage.getById(id))
                 .collect(Collectors.toList());
 
     }
@@ -56,13 +56,13 @@ public class LikeService {
     }
 
     private void checkFilmContains(Long filmId) {
-        if (filmStorage.getById(filmId) == null) {
+        if (inMemoryFilmStorage.getById(filmId) == null) {
             throw new NotFoundException("Переданный фильм не найден id = " + filmId);
         }
     }
 
     private void checkUserContains(Long userId) {
-        if (userStorage.getById(userId) == null) {
+        if (inMemoryUserStorage.getById(userId) == null) {
             throw new NotFoundException("Переданный пользователь не найден id = " + userId);
         }
     }
