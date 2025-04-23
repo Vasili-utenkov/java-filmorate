@@ -1,26 +1,20 @@
 package ru.yandex.practicum.filmorate.storage;
 
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.UserService;
 
 import java.util.Collection;
 import java.util.Map;
 
 @Slf4j
 @Component
-public class InMemoryUserStorage extends AbstractStorage<User> {
-
+@RequiredArgsConstructor
+public class UserStorage extends AbstractStorage<User> {
     private final Map<Long, User> users;
-    UserService service;
-
-    public InMemoryUserStorage(UserService service) {
-        this.service = service;
-        this.users = storage;
-    }
 
     @Override
     public User create(User user) {
@@ -29,8 +23,6 @@ public class InMemoryUserStorage extends AbstractStorage<User> {
         user.setId(getNextID());
         log.info("Добавили пользователя " + user);
         user = super.create(user);
-        log.info("Добавили мапу для пользователя " + user);
-        service.addEmptyFriendsSet(user.getId());
         return user;
     }
 
@@ -63,7 +55,6 @@ public class InMemoryUserStorage extends AbstractStorage<User> {
     @Override
     public void delete(long id) {
         log.info("Удалили пользователя с id = " + id);
-        service.deleteFriendsSet(id);
         super.delete(id);
     }
 
