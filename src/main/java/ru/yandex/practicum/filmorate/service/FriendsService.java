@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendsStorage;
@@ -10,11 +9,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class FriendsService {
 
     private UserStorage userStorage;
     private FriendsStorage friendsStorage;
+
+    public FriendsService(UserStorage userStorage, FriendsStorage friendsStorage) {
+        this.userStorage = userStorage;
+        this.friendsStorage = friendsStorage;
+    }
 
     // при удаление пользователя  + пройтись по всем мапам, удалить id
     public void deleteFriendsSet(Long userId) {

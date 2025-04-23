@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -12,14 +11,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-
 public class LikeService {
 
     private FilmStorage filmStorage;
     private LikesStorage likesStorage;
     private UserStorage userStorage;
 
+    public LikeService(FilmStorage filmStorage, LikesStorage likesStorage, UserStorage userStorage) {
+        this.filmStorage = filmStorage;
+        this.likesStorage = likesStorage;
+        this.userStorage = userStorage;
+    }
 
     // Добавление лайка фильму
     public void addLike(Long filmId, Long userId) {

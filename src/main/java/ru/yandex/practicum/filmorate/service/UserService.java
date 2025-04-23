@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendsStorage;
@@ -9,11 +8,15 @@ import ru.yandex.practicum.filmorate.storage.UserStorage;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
 
     private UserStorage userStorage;
     private FriendsStorage friendsStorage;
+
+    public UserService(UserStorage userStorage, FriendsStorage friendsStorage) {
+        this.userStorage = userStorage;
+        this.friendsStorage = friendsStorage;
+    }
 
     //  получение списка всех пользователей.
     public Collection<User> getAllUsers() {
