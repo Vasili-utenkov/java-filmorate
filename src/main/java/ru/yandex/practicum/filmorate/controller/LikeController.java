@@ -21,14 +21,14 @@ public class LikeController {
     // Поставить лайк фильму
     @PutMapping("/{id}/like/{userId}")
     public void likeFilm(@PathVariable Long id, @PathVariable Long userId) {
-        log.info("Поставить лайк пользователя " + userId + "фильму  с id = " + id);
+        log.info("Поставить лайк пользователя " + userId + " фильму  с id = " + id);
         likeService.addLike(id, userId);
     }
 
     // Удалить лайк фильма
     @DeleteMapping("/{id}/like/{userId}")
     public void unlikeFilm(@PathVariable Long id, @PathVariable Long userId) {
-        log.info("Удалить лайк пользователя " + userId + "у фильма с id = " + id);
+        log.info("Удалить лайк пользователя " + userId + " у фильма с id = " + id);
         likeService.removeLike(id, userId);
     }
 

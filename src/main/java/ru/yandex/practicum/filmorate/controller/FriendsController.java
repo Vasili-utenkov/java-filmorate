@@ -28,7 +28,7 @@ public class FriendsController {
     // Удаление из списка друзей
     @DeleteMapping("/{id}/friends/{friendId}")
     public void removeFriend(@PathVariable("id") Long friendId1, @PathVariable("friendId") Long friendId2) {
-        log.info("Добавление пользователя с id = " + friendId2 + " из друзей у пользователя с id = " + friendId1);
+        log.info("Удаление пользователя с id = " + friendId2 + " из друзей у пользователя с id = " + friendId1);
         friendsService.removeFriend(friendId1, friendId2);
     }
 

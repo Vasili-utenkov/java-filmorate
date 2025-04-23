@@ -26,6 +26,7 @@ public class LikeService {
     // Добавление лайка фильму
     public void addLike(Long filmId, Long userId) {
         checkFilmContains(filmId);
+        checkUserContains(userId);
         likesStorage.addLike(filmId, userId);
     }
 

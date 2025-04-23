@@ -19,7 +19,7 @@ public class InMemoryFilmStorage extends AbstractStorage<Film> implements FilmSt
     @Override
     public Film create(Film film) {
         film.setId(getNextID());
-        log.info("Добавили фильм" + film);
+        log.info("Добавили фильм " + film);
         film = super.create(film);
         return film;
     }
@@ -30,7 +30,7 @@ public class InMemoryFilmStorage extends AbstractStorage<Film> implements FilmSt
         if (films.containsKey(id)) {
             Film oldFilm = films.get(id);
             films.replace(id, newFilm);
-            log.info("Изменили данные по фильму" + oldFilm);
+            log.info("Изменили данные по фильму " + oldFilm);
             return super.update(newFilm);
         }
 
