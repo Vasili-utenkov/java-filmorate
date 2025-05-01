@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.validator.DateAfterOrEqual;
 import ru.yandex.practicum.filmorate.validator.DescriptionIsNullOrLessThen;
@@ -13,9 +14,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Film {
-
-    //    целочисленный идентификатор —
+@EqualsAndHashCode(callSuper = false)
+public class Film extends AbstaractType {
     private Long id;
     //    название —
     @NotBlank(message = "Название фильма не может быть пустым")

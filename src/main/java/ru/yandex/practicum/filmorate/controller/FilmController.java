@@ -3,56 +3,43 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/films")
 public class FilmController {
 
-    private final Map<Long, Film> films = new HashMap<>();
+    private FilmService filmService;
 
-    //    получение всех фильмов.
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
+    }
+
+    //  получение всех фильмов.
     @GetMapping
     public Collection<Film> getFilms() {
         log.info("Запрос списка фильмов");
-        return films.values();
+        return filmService.getAllFilms();
     }
 
-    //    добавление фильма;
+    //  добавление фильма;
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) {
-        film.setId(getNextID());
-        log.info("Добавили фильм" + film);
-        films.put(film.getId(), film);
-        return film;
-    }
-
-    private long getNextID() {
-        long l = films.keySet().stream()
-                .mapToLong(id -> id)
-                .max()
-                .orElse(0);
-        return ++l;
+        log.info("Добавление фильма");
+        return filmService.addFilm(film);
     }
 
     //    обновление фильма;
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film newFilm) {
-        Long id = newFilm.getId();
-        if (films.containsKey(id)) {
-            Film oldFilm = films.get(id);
-            films.replace(id, newFilm);
-            log.info("Изменили данные по фильму" + oldFilm);
-            return newFilm;
-        }
-
-        throw new NotFoundException("Фильм с id = " + newFilm.getId() + " не найден");
+        log.info("Обновление фильма");
+        return filmService.updateFilm(newFilm);
     }
+
+
 
 }

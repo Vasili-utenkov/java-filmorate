@@ -1,14 +1,19 @@
 package ru.yandex.practicum.filmorate.model;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
-public class User {
-    //    целочисленный идентификатор
-    private long id;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+public class User extends AbstaractType {
+    private Long id;
     //    электронная почта —
     @NotBlank(message = "Электронная почта не может быть пустой")
     @Email(message = "Не верный формат для электронной почты")
