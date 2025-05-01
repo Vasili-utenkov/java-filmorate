@@ -1,5 +1,5 @@
 # java-filmorate
 Template repository for Filmorate project.
 
-Диаграмма БД
-![Диаграмма БД](src/images/BDDiagram.png)
+Р”РёР°РіСЂР°РјРјР° Р‘Р”
+![Р”РёР°РіСЂР°РјРјР° Р‘Р”](src/images/BDDiagram.png)
