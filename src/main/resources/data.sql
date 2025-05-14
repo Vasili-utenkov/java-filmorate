@@ -1,0 +1,33 @@
+
+INSERT INTO MPA (name)
+SELECT 'G' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'G');
+
+INSERT INTO MPA (name)
+SELECT 'PG' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'PG');
+
+INSERT INTO MPA (name)
+SELECT 'PG-13' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'PG-13');
+
+INSERT INTO MPA (name)
+SELECT 'R' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'R');
+
+INSERT INTO MPA (name)
+SELECT 'NC-17' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'NC-17');
+
+INSERT INTO Genre (name)
+SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Комедия');
+
+INSERT INTO Genre (name)
+SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Драма');
+
+INSERT INTO Genre (name)
+SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Мультфильм');
+
+INSERT INTO Genre (name)
+SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Триллер');
+
+INSERT INTO Genre (name)
+SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Документальный');
+
+INSERT INTO Genre (name)
+SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Боевик');
