@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS Film (
     id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name varchar(255) NOT NULL,
     description varchar(255) NOT NULL,
-    releaseDate datetime NOT NULL,
+    releaseDate date NOT NULL,
     duration int NOT NULL,
     mpaID int REFERENCES MPA(id)
     );
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Likes (
 
 CREATE TABLE IF NOT EXISTS Genre (
     id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name varchar(255)   NOT NULL
+    name varchar(255) NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS FilmGenre (
