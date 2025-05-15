@@ -15,19 +15,19 @@ INSERT INTO MPA (name)
 SELECT 'NC-17' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'NC-17');
 
 INSERT INTO Genre (name)
-SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Комедия');
+SELECT 'РљРѕРјРµРґРёСЏ' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'РљРѕРјРµРґРёСЏ');
 
 INSERT INTO Genre (name)
-SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Драма');
+SELECT 'Р”СЂР°РјР°' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Р”СЂР°РјР°');
 
 INSERT INTO Genre (name)
-SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Мультфильм');
+SELECT 'РњСѓР»СЊС‚С„РёР»СЊРј' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'РњСѓР»СЊС‚С„РёР»СЊРј');
 
 INSERT INTO Genre (name)
-SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Триллер');
+SELECT 'РўСЂРёР»Р»РµСЂ' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'РўСЂРёР»Р»РµСЂ');
 
 INSERT INTO Genre (name)
-SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Документальный');
+SELECT 'Р”РѕРєСѓРјРµРЅС‚Р°Р»СЊРЅС‹Р№' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Р”РѕРєСѓРјРµРЅС‚Р°Р»СЊРЅС‹Р№');
 
 INSERT INTO Genre (name)
-SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Боевик');
+SELECT 'Р‘РѕРµРІРёРє' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Р‘РѕРµРІРёРє');
