@@ -36,8 +36,11 @@ public class Film extends AbstaractType {
     @NotNull(message = "Продолжительность фильма должна быть задана")
     @Min(value = 1, message = "Продолжительность фильма должна быть положительным числом")
     private Integer duration;
-    // категория фильма
 
-    private int categoryID;
+
+
+
+    // категория фильма
+    private int mpaID;
 
 }
