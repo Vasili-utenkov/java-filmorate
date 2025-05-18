@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class User extends AbstaractType {
+public class User {
     private Long id;
     //    электронная почта —
     @NotBlank(message = "Электронная почта не может быть пустой")

@@ -1,23 +1,21 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.inmemory;
 
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.AlreadyExistException;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Component
-public class InMemoryUserStorage extends AbstractStorage<User> implements UserStorage {
-
-    private final Map<Long, User> users;
-
-    public InMemoryUserStorage() {
-        this.users = storage;
-    }
+public class UserIMStorage implements UserStorage {
+    private final Map<Long, User> users = new HashMap<>();
 
     @Override
     public User create(User user) {
@@ -25,12 +23,17 @@ public class InMemoryUserStorage extends AbstractStorage<User> implements UserSt
         user.setNameThenNull();
         user.setId(getNextID());
         log.info("Добавили пользователя " + user);
-        user = super.create(user);
+
+        checkNullId(user);
+        if (users.containsKey(user.getId())) {
+            throw new AlreadyExistException("Существует запись с кодом " + user.getId());
+        }
+        users.put(user.getId(), user);
+
         return user;
     }
 
     private long getNextID() {
-
         long l = users.keySet().stream()
                 .mapToLong(id -> id)
                 .max()
@@ -50,7 +53,9 @@ public class InMemoryUserStorage extends AbstractStorage<User> implements UserSt
             User oldUser = users.get(id);
             users.replace(id, newUser);
             log.info("Изменили данные пользователя" + oldUser);
-            return super.update(newUser);
+            checkNullId(newUser);
+            users.replace(newUser.getId(), newUser);
+            return newUser;
         }
         throw new NotFoundException("Пользователь с id = " + newUser.getId() + " не найден");
 
@@ -59,19 +64,30 @@ public class InMemoryUserStorage extends AbstractStorage<User> implements UserSt
     @Override
     public void delete(long id) {
         log.info("Удалили пользователя с id = " + id);
-        super.delete(id);
+        users.remove(id);
     }
 
     @Override
     public User getById(long id) {
         log.info("Получение пользователя с id = " + id);
-        return super.getById(id);
+        final User user = users.get(id);
+        if (user == null) {
+            throw new NotFoundException("Не найдена запись по id = " + id);
+        }
+        return user;
     }
 
     @Override
     public Collection<User> getAll() {
         log.info("Запрос списка пользователей");
-        return super.getAll();
+        return users.values();
     }
+
+    private void checkNullId(User user) {
+        if (user.getId() == null) {
+            throw new NotFoundException("Не найден код записи id");
+        }
+    }
+
 
 }

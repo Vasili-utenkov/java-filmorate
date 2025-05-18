@@ -7,21 +7,21 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.Collection;
 
 @Component
-public interface FilmStorage extends Storage<Film> {
+public interface FilmStorage{
 
-    @Override
+// создание фильма
     Film create(Film film);
 
-    @Override
+// Изменение фильма
     Film update(Film film);
 
-    @Override
+// Удаление фильма
     void delete(long id);
 
-    @Override
+// Получение фильма по коду id
     Film getById(long id);
 
-    @Override
+// Получение списка фильмов
     Collection<Film> getAll();
 
 }

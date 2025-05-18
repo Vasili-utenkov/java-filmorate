@@ -1,23 +1,26 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.controller.factory.FilmServiceFactory;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
+
 
 import java.util.Collection;
 
 @Slf4j
 @RestController
 @RequestMapping("/films")
+@RequiredArgsConstructor
 public class FilmController {
 
-    private FilmService filmService;
-
-    public FilmController(FilmService filmService) {
-        this.filmService = filmService;
-    }
+    private final FilmServiceFactory filmServiceFactory;
+    private FilmService filmService = filmServiceFactory.getFilmService();
 
     //  получение всех фильмов.
     @GetMapping
@@ -39,7 +42,5 @@ public class FilmController {
         log.info("Обновление фильма");
         return filmService.updateFilm(newFilm);
     }
-
-
 
 }

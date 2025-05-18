@@ -1,22 +1,25 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.controller.factory.GenresServiceFactory;
+import ru.yandex.practicum.filmorate.controller.factory.LikeServiceFactory;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.GenresService;
 import ru.yandex.practicum.filmorate.service.LikeService;
+import ru.yandex.practicum.filmorate.service.inmemory.LikeIMService;
 
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/films")
+@RequiredArgsConstructor
 public class LikeController {
 
-    private LikeService likeService;
-
-    public LikeController(LikeService likeService) {
-        this.likeService = likeService;
-    }
+    private final LikeServiceFactory likeServiceFactory;
+    private LikeService likeService = likeServiceFactory.getLikeService();
 
     // Поставить лайк фильму
     @PutMapping("/{id}/like/{userId}")
