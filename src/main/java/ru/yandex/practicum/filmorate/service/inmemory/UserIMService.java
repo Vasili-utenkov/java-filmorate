@@ -20,10 +20,10 @@ public class UserIMService implements UserService {
     private UserIMStorage userStorage;
     private FriendsIMStorage friendsStorage;
 
-//    public UserIMService(UserIMStorage userStorage, FriendsIMStorage friendsIMStorage) {
-//        this.userStorage = userStorage;
-//        this.friendsStorage = friendsIMStorage;
-//    }
+    public UserIMService(UserIMStorage userStorage, FriendsIMStorage friendsIMStorage) {
+        this.userStorage = userStorage;
+        this.friendsStorage = friendsIMStorage;
+    }
 
     //  получение списка всех пользователей.
     @Override

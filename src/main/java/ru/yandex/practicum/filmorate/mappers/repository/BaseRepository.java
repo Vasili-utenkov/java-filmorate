@@ -18,6 +18,7 @@ public class BaseRepository<T> {
     protected final JdbcTemplate jdbc;
     protected final RowMapper<T> mapper;
 
+
     protected T findOne(String query, Object... params) {
         try {
             return jdbc.queryForObject(query, mapper, params);

@@ -17,10 +17,10 @@ public class FilmDBService implements FilmService {
     private FilmDBStorage filmStorage;
     private LikesDBStorage likesStorage;
 
-//    public FilmDBService(FilmDBStorage filmStorage, LikesDBStorage likesStorage) {
-//        this.filmStorage = filmStorage;
-//        this.likesStorage = likesStorage;
-//    }
+    public FilmDBService(FilmDBStorage filmStorage, LikesDBStorage likesStorage) {
+        this.filmStorage = filmStorage;
+        this.likesStorage = likesStorage;
+    }
 
     // получение всех фильмов.
     @Override

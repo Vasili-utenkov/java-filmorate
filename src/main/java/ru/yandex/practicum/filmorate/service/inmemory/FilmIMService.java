@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service.inmemory;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -10,6 +11,7 @@ import java.util.*;
 
 @Service("filmIMService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "memory", matchIfMissing = true)
+@RequiredArgsConstructor
 public class FilmIMService implements FilmService {
 
     private FilmIMStorage filmStorage;
