@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.controller.factory.MpaServiceFactory;
 import ru.yandex.practicum.filmorate.model.MPA;
@@ -16,9 +17,15 @@ import java.util.List;
 public class MpaController {
 
     private final MpaServiceFactory mpaServiceFactory;
-    private MpaService mpaService = mpaServiceFactory.getMPAService();
+    private final MpaService mpaService;
 
-// список объектов содержащих жанр
+    @Autowired
+    public MpaController(MpaServiceFactory mpaServiceFactory) {
+        this.mpaServiceFactory = mpaServiceFactory;
+        this.mpaService = mpaServiceFactory.getMPAService();
+    }
+
+    // список объектов содержащих жанр
 // GET /genres
 
     @GetMapping("")
@@ -31,9 +38,9 @@ public class MpaController {
 // GET /genres/{id}
 
     @GetMapping("/{id}")
-    public MPA getByID(@PathVariable("id") Long Id) {
-        log.info("Жанр с id = " + Id);
-        return mpaService.getByID(Id);
+    public MPA getByID(@PathVariable("id") Long id) {
+        log.info("Жанр с id = " + id);
+        return mpaService.getByID(id);
     }
 
 }

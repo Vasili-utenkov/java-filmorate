@@ -3,15 +3,14 @@ package ru.yandex.practicum.filmorate.storage.db;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
 import ru.yandex.practicum.filmorate.model.Like;
 import ru.yandex.practicum.filmorate.storage.LikesStorage;
-
 import java.util.List;
 
 @Slf4j
-@Repository
+@Component
 public class LikesDBStorage extends BaseRepository<Like> implements LikesStorage {
 
     private static final String DELETE_LIKE_SET_QUERY =
@@ -21,7 +20,7 @@ public class LikesDBStorage extends BaseRepository<Like> implements LikesStorage
     private static final String REMOVE_LIKE_QUERY =
             "DELETE FROM Likes WHERE filmID = ? AND userID = ?";
     private static final String GET_TOP_POPULAR_FILMS_ID_QUERY = """
-            SELECT f.id, f.name, f.description, f.release_date, f.duration, 
+            SELECT f.id, f.name, f.description, f.release_date, f.duration,
             COUNT(l.user_id) AS likes_count
             FROM films f LEFT JOIN likes l ON f.id = l.film_id
             GROUP BY

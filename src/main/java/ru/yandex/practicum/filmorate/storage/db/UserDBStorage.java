@@ -3,18 +3,14 @@ package ru.yandex.practicum.filmorate.storage.db;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
-import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.storage.MpaStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
-
 import java.util.Collection;
 
 @Slf4j
-@Repository
-
+@Component
 public class UserDBStorage extends BaseRepository<User> implements UserStorage {
 
     private static final String CREATE_QUERY =

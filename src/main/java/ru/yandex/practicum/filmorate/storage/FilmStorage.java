@@ -7,7 +7,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 import java.util.Collection;
 
 @Component
-public interface FilmStorage{
+public interface FilmStorage {
 
 // создание фильма
     Film create(Film film);

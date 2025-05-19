@@ -2,15 +2,13 @@ package ru.yandex.practicum.filmorate.storage.db;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
-import ru.yandex.practicum.filmorate.model.Friend;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendsStorage;
-
 import java.util.List;
 
-@Repository
+@Component
 public class FriendsDBStorage extends BaseRepository<User> implements FriendsStorage {
 
     // Удаление сета с друзьями для userId
@@ -34,10 +32,10 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
             select u.*
             from User u
             join Friend f1 on f1.sideTwo = u.id and f1.sideOne = @user1
-            join Friend f2 on f2.sideTwo = u.id and f2.sideOne = @user2 
+            join Friend f2 on f2.sideTwo = u.id and f2.sideOne = @user2
             """;
 
-    public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<Friend> mapper) {
+    public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<User> mapper) {
         super(jdbc, mapper);
     }
 

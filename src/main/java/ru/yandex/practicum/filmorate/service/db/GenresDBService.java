@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.service.GenresService;
+import ru.yandex.practicum.filmorate.storage.db.GenresDBStorage;
 
 import java.util.List;
 
@@ -14,6 +15,11 @@ import java.util.List;
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
 public class GenresDBService implements GenresService {
 
+    private GenresDBStorage genresStorage;
+
+    public GenresDBService(GenresDBStorage genresStorage) {
+        this.genresStorage = genresStorage;
+    }
 
     @Override
     public List<Genre> getAll() {

@@ -5,12 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.controller.factory.FilmServiceFactory;
 import ru.yandex.practicum.filmorate.controller.factory.UserServiceFactory;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.UserService;
-import ru.yandex.practicum.filmorate.service.inmemory.UserIMService;
 import java.util.Collection;
 
 @Slf4j
@@ -20,27 +17,33 @@ import java.util.Collection;
 public class UserController {
 
     private final UserServiceFactory userServiceFactory;
-    private UserService filmService = userServiceFactory.getUserService();
+    private final UserService userService; // Делаем final
+
+    @Autowired
+    public UserController(UserServiceFactory userServiceFactory) {
+        this.userServiceFactory = userServiceFactory;
+        this.userService = userServiceFactory.getUserService(); // Инициализация здесь
+    }
 
     //  получение списка всех пользователей.
     @GetMapping
     public Collection<User> getAllUsers() {
         log.info("Запрос списка пользователей");
-        return filmService.getAllUsers();
+        return userService.getAllUsers();
     }
 
     //    создание пользователя;
     @PostMapping
     public User addUser(@Valid @RequestBody User user) {
         log.info("Создание пользователя");
-        return filmService.create(user);
+        return userService.create(user);
     }
 
     //    обновление пользователя;
     @PutMapping
     public User updateUser(@Valid @RequestBody User newUser) {
         log.info("Изменение пользователя");
-        return filmService.update(newUser);
+        return userService.update(newUser);
     }
 
 

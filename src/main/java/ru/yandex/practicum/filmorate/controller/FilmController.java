@@ -3,8 +3,7 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.controller.factory.FilmServiceFactory;
 import ru.yandex.practicum.filmorate.model.Film;
@@ -20,7 +19,13 @@ import java.util.Collection;
 public class FilmController {
 
     private final FilmServiceFactory filmServiceFactory;
-    private FilmService filmService = filmServiceFactory.getFilmService();
+    private final FilmService filmService;
+
+    @Autowired
+    public FilmController(FilmServiceFactory filmServiceFactory) {
+        this.filmServiceFactory = filmServiceFactory;
+        this.filmService = filmServiceFactory.getFilmService();
+    }
 
     //  получение всех фильмов.
     @GetMapping

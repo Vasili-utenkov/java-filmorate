@@ -31,9 +31,9 @@ public class BaseRepository<T> {
     }
 
     protected List<Long> getIDList(String query, Object... params) {
-        return jdbc.query(query
-                , (rs, rowNum) -> rs.getLong("id") // RowMapper для ID
-                , params);
+        return jdbc.query(query,
+                (rs, rowNum) -> rs.getLong("id"), // RowMapper для ID
+                params);
     }
 
 

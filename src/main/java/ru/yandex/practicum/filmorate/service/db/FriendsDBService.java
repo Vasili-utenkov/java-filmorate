@@ -8,7 +8,6 @@ import ru.yandex.practicum.filmorate.storage.db.FriendsDBStorage;
 import ru.yandex.practicum.filmorate.storage.db.UserDBStorage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service("friendsDBService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
@@ -34,6 +33,7 @@ public class FriendsDBService implements FriendsService {
     public void addFriend(Long friendId1, Long friendId2) {
         friendsStorage.addFriend(friendId1, friendId2);
     }
+
     //     удаление из друзей
     @Override
     public void removeFriend(Long friendId1, Long friendId2) {
@@ -45,6 +45,7 @@ public class FriendsDBService implements FriendsService {
     public List<User> getFriends(Long friendId1) {
         return friendsStorage.getFriends(friendId1);
     }
+
     // вывод списка общих друзей
     @Override
     public List<User> getCommonFriends(Long friendId1, Long friendId2) {

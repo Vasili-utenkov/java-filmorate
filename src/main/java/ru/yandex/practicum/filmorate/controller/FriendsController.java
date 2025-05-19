@@ -2,13 +2,11 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.controller.factory.FilmServiceFactory;
 import ru.yandex.practicum.filmorate.controller.factory.FriendsServiceFactory;
 import ru.yandex.practicum.filmorate.model.User;
-import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.FriendsService;
-import ru.yandex.practicum.filmorate.service.inmemory.FriendsIMService;
 
 import java.util.List;
 
@@ -19,7 +17,13 @@ import java.util.List;
 public class FriendsController {
 
     private final FriendsServiceFactory friendsServiceFactory;
-    private FriendsService friendsService = friendsServiceFactory.getFriendService();
+    private final FriendsService friendsService;
+
+    @Autowired
+    public FriendsController(FriendsServiceFactory friendsServiceFactory) {
+        this.friendsServiceFactory = friendsServiceFactory;
+        this.friendsService = friendsServiceFactory.getFriendService();
+    }
 
     // Добавление в список друзей
     @PutMapping("/{id}/friends/{friendId}")

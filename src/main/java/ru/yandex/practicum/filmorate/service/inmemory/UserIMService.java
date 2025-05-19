@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service.inmemory;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
@@ -13,15 +14,16 @@ import java.util.*;
 @Slf4j
 @Service("userIMService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "memory", matchIfMissing = true)
+@RequiredArgsConstructor
 public class UserIMService implements UserService {
 
     private UserIMStorage userStorage;
     private FriendsIMStorage friendsStorage;
 
-    public UserIMService(UserIMStorage userStorage, FriendsIMStorage friendsIMStorage) {
-        this.userStorage = userStorage;
-        this.friendsStorage = friendsIMStorage;
-    }
+//    public UserIMService(UserIMStorage userStorage, FriendsIMStorage friendsIMStorage) {
+//        this.userStorage = userStorage;
+//        this.friendsStorage = friendsIMStorage;
+//    }
 
     //  получение списка всех пользователей.
     @Override

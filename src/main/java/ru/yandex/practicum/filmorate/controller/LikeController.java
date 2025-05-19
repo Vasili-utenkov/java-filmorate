@@ -2,13 +2,11 @@ package ru.yandex.practicum.filmorate.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.controller.factory.GenresServiceFactory;
 import ru.yandex.practicum.filmorate.controller.factory.LikeServiceFactory;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.service.GenresService;
 import ru.yandex.practicum.filmorate.service.LikeService;
-import ru.yandex.practicum.filmorate.service.inmemory.LikeIMService;
 
 import java.util.List;
 
@@ -19,7 +17,13 @@ import java.util.List;
 public class LikeController {
 
     private final LikeServiceFactory likeServiceFactory;
-    private LikeService likeService = likeServiceFactory.getLikeService();
+    private final LikeService likeService;
+
+    @Autowired
+    public LikeController(LikeServiceFactory likeServiceFactory) {
+        this.likeServiceFactory = likeServiceFactory;
+        this.likeService = likeServiceFactory.getLikeService();
+    }
 
     // Поставить лайк фильму
     @PutMapping("/{id}/like/{userId}")

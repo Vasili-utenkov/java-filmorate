@@ -2,9 +2,10 @@ package ru.yandex.practicum.filmorate.controller.factory;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import ru.yandex.practicum.filmorate.service.FilmService;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.service.LikeService;
 
+@Service
 public class LikeServiceFactory {
 
     private final LikeService imService;
