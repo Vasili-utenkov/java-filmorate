@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage.inmemory;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FriendsStorage;
 
 import java.util.*;
@@ -58,7 +59,7 @@ public class FriendsIMStorage implements FriendsStorage {
 
     // список друзей
     @Override
-    public List<Long> getFriends(Long friendId1) {
+    public List<Long> getFriendsID(Long friendId1) {
         // + проверка по наличию ключа
         checkFriendContains(friendId1);
         List<Long> list = new ArrayList<>(friends.get(friendId1));
@@ -67,7 +68,7 @@ public class FriendsIMStorage implements FriendsStorage {
 
     //     вывод списка общих друзей
     @Override
-    public List<Long> getCommonFriends(Long friendId1, Long friendId2) {
+    public List<Long> getCommonFriendsID(Long friendId1, Long friendId2) {
         // + проверка по наличию ключа
         checkFriendContains(friendId1);
         checkFriendContains(friendId2);

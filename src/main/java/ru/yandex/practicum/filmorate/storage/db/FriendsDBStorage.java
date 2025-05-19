@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.db;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,9 +10,8 @@ import ru.yandex.practicum.filmorate.storage.FriendsStorage;
 
 import java.util.List;
 
-@Slf4j
 @Repository
-public class FriendsDBStorage extends BaseRepository<Friend> implements FriendsStorage {
+public class FriendsDBStorage extends BaseRepository<User> implements FriendsStorage {
 
     // Удаление сета с друзьями для userId
     private static final String DELETE_FRIEND_SET_QUERY
@@ -39,7 +37,7 @@ public class FriendsDBStorage extends BaseRepository<Friend> implements FriendsS
             join Friend f2 on f2.sideTwo = u.id and f2.sideOne = @user2 
             """;
 
-    public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<User> mapper) {
+    public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<Friend> mapper) {
         super(jdbc, mapper);
     }
 
@@ -76,14 +74,22 @@ public class FriendsDBStorage extends BaseRepository<Friend> implements FriendsS
 
     // список друзей
     @Override
-    public List<Long> getFriends(Long friendId1) {
+    public List<Long> getFriendsID(Long friendId1) {
         return getIDList(GET_FRIENDS_QUERY, friendId1);
+    }
+
+    public List<User> getFriends(Long friendId1) {
+        return findMany(GET_FRIENDS_QUERY, friendId1);
     }
 
     // вывод списка общих друзей
     @Override
-    public List<Long> getCommonFriends(Long friendId1, Long friendId2) {
+    public List<Long> getCommonFriendsID(Long friendId1, Long friendId2) {
         return getIDList(GET_COMMON_FRIEND_QUERY, friendId1, friendId2);
+    }
+
+    public List<User> getCommonFriends(Long friendId1, Long friendId2) {
+        return findMany(GET_COMMON_FRIEND_QUERY, friendId1, friendId2);
     }
 
 

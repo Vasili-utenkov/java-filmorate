@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.inmemory;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.storage.LikesStorage;
@@ -7,7 +8,7 @@ import ru.yandex.practicum.filmorate.storage.LikesStorage;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 public class LikesIMStorage implements LikesStorage {
     private final Map<Long, Set<Long>> filmLikes = new HashMap<>(); // ключ - id фильма, значение - множество id пользователей, которые лайкнули фильм
 

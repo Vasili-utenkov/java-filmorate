@@ -44,7 +44,7 @@ public class FriendsIMService implements FriendsService {
     //     список друзей
     @Override
     public List<User> getFriends(Long friendId1) {
-        List<Long> listId = friendsStorage.getFriends(friendId1);
+        List<Long> listId = friendsStorage.getFriendsID(friendId1);
 
         List<User> list = listId.stream()
                 .map(id -> userStorage.getById(id))
@@ -55,8 +55,8 @@ public class FriendsIMService implements FriendsService {
     //     вывод списка общих друзей
     @Override
     public List<User> getCommonFriends(Long friendId1, Long friendId2) {
-        List<Long> listId1 = friendsStorage.getFriends(friendId1);
-        List<Long> listId2 = friendsStorage.getFriends(friendId2);
+        List<Long> listId1 = friendsStorage.getFriendsID(friendId1);
+        List<Long> listId2 = friendsStorage.getFriendsID(friendId2);
 
         List<User> list = listId1.stream()
                 .filter(listId2::contains)

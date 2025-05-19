@@ -21,11 +21,13 @@ public class FilmIMService implements FilmService {
     }
 
     // получение всех фильмов.
+    @Override
     public Collection<Film> getAllFilms() {
         return filmStorage.getAll();
     }
 
     //  добавление фильма;
+    @Override
     public Film addFilm(Film film) {
         film = filmStorage.create(film);
         // Создали чистую мапу лайков
@@ -34,6 +36,7 @@ public class FilmIMService implements FilmService {
     }
 
     //    обновление фильма;
+    @Override
     public Film updateFilm(Film newFilm) {
         return filmStorage.update(newFilm);
     }

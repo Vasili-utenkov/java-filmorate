@@ -25,7 +25,7 @@ public class GenresController {
 // GET /genres
 
     @GetMapping("")
-    public List<Genre> getFriends() {
+    public List<Genre> getAll() {
         log.info("Список жанров.");
         return genresService.getAll();
     }
@@ -34,7 +34,7 @@ public class GenresController {
 // GET /genres/{id}
 
     @GetMapping("/{id}")
-    public Genre getFriends(@PathVariable("id") Long Id) {
+    public Genre getByID(@PathVariable("id") Long Id) {
         log.info("Жанр с id = " + Id);
         return genresService.getByID(Id);
     }

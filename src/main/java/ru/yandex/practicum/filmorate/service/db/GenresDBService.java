@@ -15,8 +15,6 @@ import java.util.List;
 public class GenresDBService implements GenresService {
 
 
-
-
     @Override
     public List<Genre> getAll() {
         return null;

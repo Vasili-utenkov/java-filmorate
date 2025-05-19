@@ -1,11 +1,11 @@
 package ru.yandex.practicum.filmorate.controller.factory;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import ru.yandex.practicum.filmorate.service.GenresService;
-
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.service.MpaService;
 import java.util.Optional;
 
+@Service
 public class MpaServiceFactory {
 
     private final Optional<MpaService> imService;
@@ -14,8 +14,8 @@ public class MpaServiceFactory {
 
     public MpaServiceFactory(
             @Value("${film.storage.type:memory}") String storageType,
-            @Qualifier("genresIMService") Optional<MpaService> imService,
-            @Qualifier("genresDBService") MpaService dbService
+            @Qualifier("mpaIMService") Optional<MpaService> imService,
+            @Qualifier("mpaDBService") MpaService dbService
     ) {
         this.storageType = storageType;
         this.imService = imService;
