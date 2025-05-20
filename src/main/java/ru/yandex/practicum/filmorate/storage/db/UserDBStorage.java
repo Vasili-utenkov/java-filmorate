@@ -13,8 +13,10 @@ import java.util.Collection;
 @Component
 public class UserDBStorage extends BaseRepository<User> implements UserStorage {
 
+//    {"name":"Nathaniel Keebler","login":"UWUZEXpuWn","email":"Laney42@yahoo.com","birthday":"1968-09-09"}
+
     private static final String CREATE_QUERY =
-            "INSERT INTO users(login, email, name, birthday) VALUES (?, ?, ?, ?)";
+            "INSERT INTO users(name, login, email, birthday) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_QUERY =
             "UPDATE users SET login = ?, email = ?, name = ?,birthday = ? WHERE id = ?";
     private static final String DELETE_QUERY =
