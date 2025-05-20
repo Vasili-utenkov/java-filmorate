@@ -13,15 +13,12 @@ import java.util.Collection;
 @Slf4j
 @Service("userDBService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
-@RequiredArgsConstructor
 public class UserDBService implements UserService {
 
     private UserDBStorage userStorage;
-    private FriendsDBStorage friendsStorage;
 
     public UserDBService(UserDBStorage userStorage, FriendsDBStorage friendsIMStorage) {
         this.userStorage = userStorage;
-        this.friendsStorage = friendsIMStorage;
     }
 
     /**

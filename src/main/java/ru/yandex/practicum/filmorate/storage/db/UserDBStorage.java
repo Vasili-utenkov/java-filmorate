@@ -13,8 +13,6 @@ import java.util.Collection;
 @Component
 public class UserDBStorage extends BaseRepository<User> implements UserStorage {
 
-//    {"name":"Nathaniel Keebler","login":"UWUZEXpuWn","email":"Laney42@yahoo.com","birthday":"1968-09-09"}
-
     private static final String CREATE_QUERY =
             "INSERT INTO users(name, login, email, birthday) VALUES (?, ?, ?, ?)";
     private static final String UPDATE_QUERY =
@@ -32,7 +30,7 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
 
     @Override
     public User create(User user) {
-        long id = insert(
+        Long id = insert(
                 CREATE_QUERY,
                 true,
                 user.getLogin(),
@@ -76,6 +74,4 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
         log.info("Запрос списка пользователей");
         return findMany(GET_ALL_QUERY);
     }
-
-
 }

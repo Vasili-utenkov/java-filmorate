@@ -45,6 +45,4 @@ public class UserController {
         log.info("Изменение пользователя");
         return userService.update(newUser);
     }
-
-
 }

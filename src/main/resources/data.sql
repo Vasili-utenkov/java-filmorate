@@ -14,20 +14,20 @@ SELECT 'R' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'R');
 INSERT INTO MPA (name)
 SELECT 'NC-17' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'NC-17');
 
-INSERT INTO Genre (name)
-SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Комедия');
+INSERT INTO Genres (name)
+SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Комедия');
 
-INSERT INTO Genre (name)
-SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Драма');
+INSERT INTO Genres (name)
+SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Драма');
 
-INSERT INTO Genre (name)
-SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Мультфильм');
+INSERT INTO Genres (name)
+SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Мультфильм');
 
-INSERT INTO Genre (name)
-SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Триллер');
+INSERT INTO Genres (name)
+SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Триллер');
 
-INSERT INTO Genre (name)
-SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Документальный');
+INSERT INTO Genres (name)
+SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Документальный');
 
-INSERT INTO Genre (name)
-SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Боевик');
+INSERT INTO Genres (name)
+SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM Genres WHERE name = 'Боевик');

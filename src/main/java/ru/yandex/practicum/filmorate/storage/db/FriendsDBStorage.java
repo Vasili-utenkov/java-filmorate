@@ -13,20 +13,20 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
 
     // Удаление сета с друзьями для userId
     private static final String DELETE_FRIEND_SET_QUERY
-            = "DELETE FROM user_friends WHERE user_id = ?";
+            = "DELETE FROM friend WHERE sideOne = ?";
     // Удаление userId из всех сетов друзей всех пользователей
     private static final String DELETE_FROM_FRIENDS_SET_QUERY
-            = "DELETE FROM user_friends WHERE side_two = ?";
+            = "DELETE FROM friend WHERE sideTwo = ?";
     //     добавление в друзья (взаимное)
     private static final String ADD_FRIEND_QUERY
-            = "INSERT INTO user_friends (side_one, side_two, confirmed) VALUES (?, ?, ?)";
+            = "INSERT INTO friend (sideOne, sideTwo, isConfirm) VALUES (?, ?, ?)";
     //     удаление из друзей (взаимное)
     private static final String REMOVE_FRIEND_QUERY
-            = "DELETE FROM user_friends WHERE side_one = ? AND side_two = ?";
+            = "DELETE FROM friend WHERE sideOne = ? AND sideTwo = ?";
     // список друзей
     private static final String GET_FRIENDS_QUERY = """
             SELECT * FROM users AS u
-            INNER JOIN user_friends AS uf ON u.id = uf.side_one WHERE uf.user_id = ? AND uf.confirmed = true""";
+            INNER JOIN friend AS uf ON u.id = uf.sideOne WHERE uf.sideOne = ? AND uf.isConfirm = true""";
     //     вывод списка общих друзей
     private static final String GET_COMMON_FRIEND_QUERY = """
             select u.*
