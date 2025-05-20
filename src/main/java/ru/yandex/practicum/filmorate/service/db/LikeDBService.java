@@ -25,28 +25,36 @@ public class LikeDBService implements LikeService {
         this.userStorage = userStorage;
     }
 
+    // Добавление лайка фильму
     @Override
     public void addLike(Long filmId, Long userId) {
-
+        likesStorage.addLike(userId, filmId);
     }
 
+    // Удаление лайка у фильма
     @Override
     public void removeLike(Long filmId, Long userId) {
-
+        likesStorage.removeLike(filmId, userId);
     }
 
+    // Получение списка самых популярных фильмов по количеству лайков
     @Override
     public List<Film> getTopPopularFilms(Integer count) {
-        return null;
+        return filmStorage.getTopPopularFilms(count);
     }
 
+    // Добавление мапы лайков
     @Override
     public void addLikesEmptySet(Long filmId) {
 
     }
 
+    // Удаление мапы лайков
     @Override
     public void deleteLikesSet(Long filmId) {
-
+        likesStorage.deleteLikesSet(filmId);
     }
+
+
+
 }

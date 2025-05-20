@@ -1,30 +1,34 @@
 package ru.yandex.practicum.filmorate.controller.factory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.service.UserService;
 
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserServiceFactory {
 
-    private final UserService imService;
-    private final UserService dbService;
-    private final String storageType;
-
-    public UserServiceFactory(
-            @Value("${film.storage.type:memory}") String storageType,
-            @Qualifier("userIMService") UserService imService,
-            @Qualifier("userDBService") UserService dbService
-    ) {
-        this.storageType = storageType;
-        this.imService = imService;
-        this.dbService = dbService;
-    }
+    private final Environment environment;
+    private final ApplicationContext applicationContext;
 
     public UserService getUserService() {
-        return "db".equals(storageType) ? dbService : imService;
+        String storageType = environment.getProperty("film.storage.type", "memory");
+        log.info("Selecting user service for storage type: {}", storageType);
+
+        try {
+            return switch (storageType.toLowerCase()) {
+                case "db" -> applicationContext.getBean("userDBService", UserService.class);
+                default -> applicationContext.getBean("userIMService", UserService.class);
+            };
+        } catch (BeansException ex) {
+            log.error("Failed to get user service implementation for type: {}", storageType, ex);
+            throw new IllegalStateException("No available user service implementation for type: " + storageType, ex);
+        }
     }
 
 }

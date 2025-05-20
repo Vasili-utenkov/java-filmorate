@@ -21,11 +21,11 @@ public class MpaDBService implements MpaService {
 
     @Override
     public List<MPA> getAll() {
-        return null;
+        return mpaDBStorage.getAll();
     }
 
     @Override
     public MPA getByID(Long id) {
-        return null;
+        return mpaDBStorage.getByID(id);
     }
 }

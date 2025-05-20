@@ -20,8 +20,7 @@ public class LikesDBStorage extends BaseRepository<Like> implements LikesStorage
     private static final String REMOVE_LIKE_QUERY =
             "DELETE FROM Likes WHERE filmID = ? AND userID = ?";
     private static final String GET_TOP_POPULAR_FILMS_ID_QUERY = """
-            SELECT f.id, f.name, f.description, f.release_date, f.duration,
-            COUNT(l.user_id) AS likes_count
+            SELECT f.*
             FROM films f LEFT JOIN likes l ON f.id = l.film_id
             GROUP BY
                 f.id
@@ -58,9 +57,11 @@ public class LikesDBStorage extends BaseRepository<Like> implements LikesStorage
         delete(REMOVE_LIKE_QUERY, filmId, userId);
     }
 
-    // Получение самых популярных фильмов по количеству лайков
+    // Получение списка ID самых популярных фильмов по количеству лайков
     @Override
     public List<Long> getTopPopularFilmsId(Integer count) {
         return getIDList(GET_TOP_POPULAR_FILMS_ID_QUERY, count);
     }
+
+
 }

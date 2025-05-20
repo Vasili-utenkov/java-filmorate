@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -20,6 +21,17 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     private static final String DELETE_QUERY = "DELETE Film WHERE id = ?";
     private static final String GET_BY_ID_QUERY = "SELECT * FROM Film WHERE id = ?";
     private static final String GET_ALL_QUERY = "SELECT * FROM Film";
+
+    private static final String GET_TOP_POPULAR_FILMS_ID_QUERY = """
+            SELECT f.*
+            FROM films f LEFT JOIN likes l ON f.id = l.film_id
+            GROUP BY
+                f.id
+            ORDER BY
+                likes_count DESC
+            LIMIT ?
+            """;
+
 
     public FilmDBStorage(JdbcTemplate jdbc, RowMapper<Film> mapper) {
         super(jdbc, mapper);
@@ -79,4 +91,10 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
         log.info("Запрос списка фильмов");
         return findMany(GET_ALL_QUERY);
     }
+
+    // Получение списка ID самых популярных фильмов по количеству лайков
+    public List<Film> getTopPopularFilms(Integer count) {
+        return findMany(GET_TOP_POPULAR_FILMS_ID_QUERY, count);
+    }
+
 }

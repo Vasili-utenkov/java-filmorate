@@ -1,33 +1,24 @@
 package ru.yandex.practicum.filmorate.controller.factory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.service.MpaService;
-import java.util.Optional;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class MpaServiceFactory {
 
-    private final Optional<MpaService> imService;
-    private final MpaService dbService;
-    private final String storageType;
-
-    public MpaServiceFactory(
-            @Value("${film.storage.type:memory}") String storageType,
-            @Qualifier("mpaIMService") Optional<MpaService> imService,
-            @Qualifier("mpaDBService") MpaService dbService
-    ) {
-        this.storageType = storageType;
-        this.imService = imService;
-        this.dbService = dbService;
-    }
+    private final ApplicationContext applicationContext;
 
     public MpaService getMPAService() {
-
-        if ("memory".equals(storageType)) {
-            return imService.orElseThrow(() ->
-                    new IllegalStateException("IM storage requested but FilmDBService is not available"));
+        try {
+            return applicationContext.getBean("mpaDBService", MpaService.class);
+        } catch (BeansException ex) {
+            throw new IllegalStateException("No available mpaDBService service implementation for type: ", ex);
         }
-        return dbService;
     }
+
 }

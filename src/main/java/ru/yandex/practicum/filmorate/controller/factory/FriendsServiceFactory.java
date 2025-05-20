@@ -1,28 +1,36 @@
 package ru.yandex.practicum.filmorate.controller.factory;
 
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.service.FriendsService;
 
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class FriendsServiceFactory {
-    private final FriendsService imService;
-    private final FriendsService dbService;
-    private final String storageType;
 
-    public FriendsServiceFactory(
-            @Value("${film.storage.type:memory}") String storageType,
-            @Qualifier("friendsIMService") FriendsService imService,
-            @Qualifier("friendsDBService") FriendsService dbService
-    ) {
-        this.storageType = storageType;
-        this.imService = imService;
-        this.dbService = dbService;
-    }
+    private final Environment environment;
+    private final ApplicationContext applicationContext;
 
     public FriendsService getFriendService() {
-        return "db".equals(storageType) ? dbService : imService;
+        String storageType = environment.getProperty("film.storage.type", "memory");
+        log.info("Selecting friends service for storage type: {}", storageType);
+
+        try {
+            return switch (storageType.toLowerCase()) {
+                case "db" -> applicationContext.getBean("friendsDBService", FriendsService.class);
+                default -> applicationContext.getBean("friendsIMService", FriendsService.class);
+            };
+        } catch (BeansException ex) {
+            log.error("Failed to get friends service implementation for type: {}", storageType, ex);
+            throw new IllegalStateException("No available friends service implementation for type: " + storageType, ex);
+        }
     }
+
+
 }

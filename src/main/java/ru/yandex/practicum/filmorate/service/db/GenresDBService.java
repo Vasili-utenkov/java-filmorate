@@ -23,11 +23,11 @@ public class GenresDBService implements GenresService {
 
     @Override
     public List<Genre> getAll() {
-        return null;
+        return genresStorage.getAll();
     }
 
     @Override
     public Genre getByID(Long id) {
-        return null;
+        return getByID(id);
     }
 }

@@ -31,7 +31,7 @@ public class UserDBService implements UserService {
      */
     @Override
     public Collection<User> getAllUsers() {
-        return null;
+        return userStorage.getAll();
     }
 
     /**
@@ -42,7 +42,7 @@ public class UserDBService implements UserService {
      */
     @Override
     public User create(User user) {
-        return null;
+        return userStorage.create(user);
     }
 
     /**
@@ -53,6 +53,6 @@ public class UserDBService implements UserService {
      */
     @Override
     public User update(User newUser) {
-        return null;
+        return userStorage.update(newUser);
     }
 }

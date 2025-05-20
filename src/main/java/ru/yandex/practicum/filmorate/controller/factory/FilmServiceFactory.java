@@ -1,34 +1,33 @@
 package ru.yandex.practicum.filmorate.controller.factory;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.service.db.FilmDBService;
-import ru.yandex.practicum.filmorate.service.inmemory.FilmIMService;
 
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FilmServiceFactory {
-    private final String storageType;
-    private final FilmIMService imService;
-    private final FilmDBService dbService;
-
-    public FilmServiceFactory(
-            @Value("${film.storage.type:memory}") String storageType,
-            @Qualifier("filmIMService") FilmIMService imService,
-            @Qualifier("filmDBService") FilmDBService dbService
-    ) {
-        this.storageType = storageType;
-        this.imService = imService;
-        this.dbService = dbService;
-
-        log.info("Initialized FilmServiceFactory with storage type: {}", storageType);
-    }
+    private final Environment environment;
+    private final ApplicationContext applicationContext;
 
     public FilmService getFilmService() {
-        return "db".equals(storageType) ? dbService : imService;
+        String storageType = environment.getProperty("film.storage.type", "memory");
+        log.info("Selecting film service for storage type: {}", storageType);
+
+        try {
+            return switch (storageType.toLowerCase()) {
+                case "db" -> applicationContext.getBean("filmDBService", FilmService.class);
+                default -> applicationContext.getBean("filmIMService", FilmService.class);
+            };
+        } catch (BeansException ex) {
+            log.error("Failed to get film service implementation for type: {}", storageType, ex);
+            throw new IllegalStateException("No available film service implementation for type: " + storageType, ex);
+        }
     }
 }
