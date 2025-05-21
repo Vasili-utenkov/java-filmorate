@@ -77,7 +77,7 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
     }
 
     public void checkNullId(Long userID) {
-        if (getById(userID) == null) {
+        if (this.getById(userID) == null) {
             throw new NotFoundException(String.format("Пользователь с id %d не найден", userID));
         }
 

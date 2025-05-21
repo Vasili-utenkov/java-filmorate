@@ -18,7 +18,6 @@ public class FilmServiceFactory {
 
     public FilmService getFilmService() {
         String storageType = environment.getProperty("film.storage.type", "memory");
-        log.info("Selecting film service for storage type: {}", storageType);
 
         try {
             return switch (storageType.toLowerCase()) {
@@ -26,7 +25,6 @@ public class FilmServiceFactory {
                 default -> applicationContext.getBean("filmIMService", FilmService.class);
             };
         } catch (BeansException ex) {
-            log.error("Failed to get film service implementation for type: {}", storageType, ex);
             throw new IllegalStateException("No available film service implementation for type: " + storageType, ex);
         }
     }

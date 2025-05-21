@@ -103,7 +103,7 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     }
 
     public void checkNullId(Long id) {
-        if (getById(id) == null) {
+        if (this.getById(id) == null) {
             throw new NotFoundException(String.format("Фильм с id %d не найден", id));
         }
     }

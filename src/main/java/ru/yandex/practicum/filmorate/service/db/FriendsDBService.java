@@ -40,18 +40,23 @@ public class FriendsDBService implements FriendsService {
     //     удаление из друзей
     @Override
     public void removeFriend(Long friendId1, Long friendId2) {
+        userStorage.checkNullId(friendId1);
+        userStorage.checkNullId(friendId2);
         friendsStorage.removeFriend(friendId1, friendId2);
     }
 
     //     список друзей
     @Override
     public List<User> getFriends(Long friendId1) {
+        userStorage.checkNullId(friendId1);
         return friendsStorage.getFriends(friendId1);
     }
 
     // вывод списка общих друзей
     @Override
     public List<User> getCommonFriends(Long friendId1, Long friendId2) {
+        userStorage.checkNullId(friendId1);
+        userStorage.checkNullId(friendId2);
         return friendsStorage.getCommonFriends(friendId1, friendId2);
     }
 }
