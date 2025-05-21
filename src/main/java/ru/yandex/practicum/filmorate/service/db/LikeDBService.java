@@ -17,12 +17,10 @@ public class LikeDBService implements LikeService {
 
     private FilmDBStorage filmStorage;
     private LikesDBStorage likesStorage;
-    private UserDBStorage userStorage;
 
     public LikeDBService(FilmDBStorage filmStorage, LikesDBStorage likesIMStorage, UserDBStorage userStorage) {
         this.filmStorage = filmStorage;
         this.likesStorage = likesIMStorage;
-        this.userStorage = userStorage;
     }
 
     // Добавление лайка фильму
@@ -46,7 +44,6 @@ public class LikeDBService implements LikeService {
     // Добавление мапы лайков
     @Override
     public void addLikesEmptySet(Long filmId) {
-
     }
 
     // Удаление мапы лайков
@@ -54,7 +51,5 @@ public class LikeDBService implements LikeService {
     public void deleteLikesSet(Long filmId) {
         likesStorage.deleteLikesSet(filmId);
     }
-
-
 
 }
