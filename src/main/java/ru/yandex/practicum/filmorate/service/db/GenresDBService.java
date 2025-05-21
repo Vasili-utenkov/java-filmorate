@@ -28,6 +28,6 @@ public class GenresDBService implements GenresService {
 
     @Override
     public Genre getByID(Long id) {
-        return getByID(id);
+        return genresStorage.getByID(id);
     }
 }

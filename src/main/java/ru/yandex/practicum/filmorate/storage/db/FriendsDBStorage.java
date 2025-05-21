@@ -29,12 +29,10 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
             SELECT * FROM users AS u
             INNER JOIN friend AS uf ON u.id = uf.sideOne WHERE uf.sideOne = ? AND uf.isConfirm = true""";
     //     вывод списка общих друзей
-    private static final String GET_COMMON_FRIEND_QUERY = """
-            select u.*
-            from User u
-            join Friend f1 on f1.sideTwo = u.id and f1.sideOne = ?
-            join Friend f2 on f2.sideTwo = u.id and f2.sideOne = ?
-            """;
+    private static final String GET_COMMON_FRIEND_QUERY = "SELECT u.* FROM Users u " +
+            "JOIN Friend f1 ON f1.sideTwo = u.id AND f1.sideOne = ? " +
+            "JOIN Friend f2 ON f2.sideTwo = u.id AND f2.sideOne = ? " +
+            "WHERE f1.isConfirm = true AND f2.isConfirm = true";
 
     @Autowired
     public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<User> mapper) {

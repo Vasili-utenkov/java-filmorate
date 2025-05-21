@@ -25,8 +25,8 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     private static final String GET_ALL_QUERY = "SELECT * FROM Film";
 
     private static final String GET_TOP_POPULAR_FILMS_QUERY = """
-            SELECT f.id, f.name, f.description, f.release_date, f.duration, f.rating_id, r.name AS mpa_name, COUNT(l.user_id) AS likes_count
-            FROM film f LEFT JOIN likes l ON f.id = l.film_id
+            SELECT f.id, f.name, f.description, f.releaseDate, f.duration, f.mpaID, COUNT(l.userid) AS likes_count
+            FROM film f LEFT JOIN likes l ON f.id = l.filmid
             GROUP BY
                 f.id
             ORDER BY

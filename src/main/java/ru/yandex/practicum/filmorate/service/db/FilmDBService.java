@@ -2,17 +2,13 @@ package ru.yandex.practicum.filmorate.service.db;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.db.*;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service("filmDBService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
@@ -53,15 +49,24 @@ public class FilmDBService implements FilmService {
         }
 
         Film finalFilm = filmStorage.create(film);
+        // Обработка жанров
         if (film.hasGenres()) {
             film.getGenres().stream()
-                    .map(genre -> genresStorage.getByID(genre.getId()))
-                    .forEach(genre -> filmGenreStorage.createFilmGenres(finalFilm.getId(), genre.getId()));
+                    .filter(Objects::nonNull) // Фильтрация null жанров
+                    .forEach(genre -> {
+                        Genre existingGenre = genresStorage.getByID(genre.getId());
+                        if (existingGenre != null) {
+                            filmGenreStorage.createFilmGenres(finalFilm.getId(), existingGenre.getId());
+                        }
+                    });
         }
-        Set<Genre> genres = new LinkedHashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId()));  // Сохраняем порядок
-        finalFilm.setGenres(genres);
-        return finalFilm;
 
+        if (filmGenreStorage.findAllByFilmId(finalFilm.getId()) != null) {
+            Set<Genre> genres = new LinkedHashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId()));  // Сохраняем порядок
+            finalFilm.setGenres(genres);
+        }
+
+        return finalFilm;
     }
 
     //    обновление фильма;
