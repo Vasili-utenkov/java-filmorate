@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.validator.DateAfterOrEqual;
 import ru.yandex.practicum.filmorate.validator.DescriptionIsNullOrLessThen;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Data
@@ -38,6 +39,12 @@ public class Film {
     private Integer duration;
 
     // категория фильма
-    private int mpaID;
+    MPA mpaID;
 
+    Set<Long> likes;
+    Set<Genre> genres;
+
+    public boolean hasGenres() {
+        return genres != null;
+    }
 }

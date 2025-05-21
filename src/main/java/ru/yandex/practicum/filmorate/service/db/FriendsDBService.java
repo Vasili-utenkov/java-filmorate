@@ -31,6 +31,9 @@ public class FriendsDBService implements FriendsService {
     //     добавление в друзья (взаимное)
     @Override
     public void addFriend(Long friendId1, Long friendId2) {
+        userStorage.checkNullId(friendId1);
+        userStorage.checkNullId(friendId2);
+
         friendsStorage.addFriend(friendId1, friendId2);
     }
 

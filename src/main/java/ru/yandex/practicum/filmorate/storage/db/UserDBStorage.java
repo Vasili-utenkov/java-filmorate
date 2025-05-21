@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
@@ -53,7 +54,7 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
                 java.sql.Date.valueOf(user.getBirthday()),
                 user.getId()
         );
-        log.info("Изменили данные пользователя" + user);
+        log.info("Изменили данные пользователя " + user);
         return user;
     }
 
@@ -74,4 +75,12 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
         log.info("Запрос списка пользователей");
         return findMany(GET_ALL_QUERY);
     }
+
+    public void checkNullId(Long userID) {
+        if (getById(userID) == null) {
+            throw new NotFoundException(String.format("Пользователь с id %d не найден", userID));
+        }
+
+    }
+
 }

@@ -1,25 +1,40 @@
 package ru.yandex.practicum.filmorate.service.db;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.db.FilmDBStorage;
-import ru.yandex.practicum.filmorate.storage.db.LikesDBStorage;
+import ru.yandex.practicum.filmorate.storage.db.*;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Service("filmDBService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
-@RequiredArgsConstructor
 public class FilmDBService implements FilmService {
 
-    private FilmDBStorage filmStorage;
-    private LikesDBStorage likesStorage;
+    private final FilmDBStorage filmStorage;
+    private final LikesDBStorage likesStorage;
+    private final MpaDBStorage mpaStorage;
+    private final FilmGenreDBStorage filmGenreStorage;
+    private final GenresDBStorage genresStorage;
 
-    public FilmDBService(FilmDBStorage filmStorage, LikesDBStorage likesStorage) {
+
+    public FilmDBService(FilmDBStorage filmStorage,
+                         LikesDBStorage likesStorage,
+                         MpaDBStorage mpaStorage,
+                         FilmGenreDBStorage filmGenreStorage,
+                         GenresDBStorage genresStorage) {
         this.filmStorage = filmStorage;
         this.likesStorage = likesStorage;
+        this.mpaStorage = mpaStorage;
+        this.filmGenreStorage = filmGenreStorage;
+        this.genresStorage = genresStorage;
     }
 
     // получение всех фильмов.
@@ -31,15 +46,47 @@ public class FilmDBService implements FilmService {
     //  добавление фильма;
     @Override
     public Film addFilm(Film film) {
-        film = filmStorage.create(film);
-        // Создали чистую мапу лайков
-        likesStorage.createLikesEmptySet(film.getId());
-        return film;
+        // Если mpaID указан - связываем с MPA
+        if (film.getMpaID() != null) {
+            MPA mpa = mpaStorage.getByID(film.getMpaID().getId());
+            // ++ Дополнительная обработка при необходимости
+        }
+
+        Film finalFilm = filmStorage.create(film);
+        if (film.hasGenres()) {
+            film.getGenres().stream()
+                    .map(genre -> genresStorage.getByID(genre.getId()))
+                    .forEach(genre -> filmGenreStorage.createFilmGenres(finalFilm.getId(), genre.getId()));
+        }
+        Set<Genre> genres = new LinkedHashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId()));  // Сохраняем порядок
+        finalFilm.setGenres(genres);
+        return finalFilm;
+
     }
 
     //    обновление фильма;
     @Override
     public Film updateFilm(Film newFilm) {
-        return filmStorage.update(newFilm);
+
+        // Проверяем существование фильма
+        filmStorage.checkNullId(newFilm.getId());
+
+        if (newFilm.getMpaID() != null) {
+            MPA mpa = mpaStorage.getByID(newFilm.getMpaID().getId());
+            // ++ Дополнительная обработка при необходимости
+        }
+
+        Film finalFilm = filmStorage.update(newFilm);
+        if (newFilm.hasGenres()) {
+            // удаляем FilmGenres
+            filmGenreStorage.deleteFilmGenres(newFilm.getId());
+            // добавляенм новый FilmGenres
+            newFilm.getGenres().stream()
+                    .map(genre -> genresStorage.getByID(genre.getId()))
+                    .forEach(genre -> filmGenreStorage.createFilmGenres(finalFilm.getId(), genre.getId()));
+        }
+        finalFilm.setGenres(new HashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId())));
+        return finalFilm;
+
     }
 }

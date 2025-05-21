@@ -16,8 +16,8 @@ CREATE TABLE Users (
 DROP TABLE IF EXISTS Friend CASCADE;
 CREATE TABLE Friend (
                         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                        sideOne BIGINT REFERENCES Users(id),
-                        sideTwo BIGINT REFERENCES Users(id),
+                        sideOne BIGINT REFERENCES Users(id) NOT NULL,
+                        sideTwo BIGINT REFERENCES Users(id) NOT NULL,
                         isConfirm boolean  DEFAULT false NOT NULL
 );
 
@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS Film CASCADE;
 CREATE TABLE Film (
                       id  BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                       name varchar(255) NOT NULL,
-                      description varchar(255) NOT NULL,
-                      releaseDate date NOT NULL,
-                      duration int NOT NULL,
+                      description varchar(255),
+                      releaseDate date,
+                      duration int,
                       mpaID int REFERENCES MPA(id)
 );
 

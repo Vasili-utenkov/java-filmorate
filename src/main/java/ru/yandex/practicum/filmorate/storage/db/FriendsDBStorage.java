@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.db;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -31,10 +32,11 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
     private static final String GET_COMMON_FRIEND_QUERY = """
             select u.*
             from User u
-            join Friend f1 on f1.sideTwo = u.id and f1.sideOne = @user1
-            join Friend f2 on f2.sideTwo = u.id and f2.sideOne = @user2
+            join Friend f1 on f1.sideTwo = u.id and f1.sideOne = ?
+            join Friend f2 on f2.sideTwo = u.id and f2.sideOne = ?
             """;
 
+    @Autowired
     public FriendsDBStorage(JdbcTemplate jdbc, RowMapper<User> mapper) {
         super(jdbc, mapper);
     }
