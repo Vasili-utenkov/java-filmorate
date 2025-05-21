@@ -19,15 +19,12 @@ public class FriendsServiceFactory {
 
     public FriendsService getFriendService() {
         String storageType = environment.getProperty("film.storage.type", "memory");
-        log.info("Selecting friends service for storage type: {}", storageType);
-
         try {
             return switch (storageType.toLowerCase()) {
                 case "db" -> applicationContext.getBean("friendsDBService", FriendsService.class);
                 default -> applicationContext.getBean("friendsIMService", FriendsService.class);
             };
         } catch (BeansException ex) {
-            log.error("Failed to get friends service implementation for type: {}", storageType, ex);
             throw new IllegalStateException("No available friends service implementation for type: " + storageType, ex);
         }
     }

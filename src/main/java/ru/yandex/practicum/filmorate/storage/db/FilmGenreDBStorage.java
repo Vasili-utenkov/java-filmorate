@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.FilmGenreStorage;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Component
 public class FilmGenreDBStorage extends BaseRepository<Genre> implements FilmGenreStorage {
@@ -39,7 +40,8 @@ public class FilmGenreDBStorage extends BaseRepository<Genre> implements FilmGen
 
     @Override
     public Collection<Genre> findAllByFilmId(Long filmId) {
-        return findMany(GET_GENRES_BY_FILM_ID_QUERY, filmId);
+        Collection<Genre> genres = findMany(GET_GENRES_BY_FILM_ID_QUERY, filmId);
+        return genres != null ? genres : Collections.emptyList();
     }
 
 }

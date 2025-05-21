@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.validator.DateAfterOrEqual;
 import ru.yandex.practicum.filmorate.validator.DescriptionIsNullOrLessThen;
-
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -39,7 +38,7 @@ public class Film {
     private Integer duration;
 
     // категория фильма
-    MPA mpaID;
+    MPA mpa;
 
     Set<Long> likes;
     Set<Genre> genres;

@@ -27,9 +27,9 @@ public class FriendsController {
 
     // Добавление в список друзей
     @PutMapping("/{id}/friends/{friendId}")
-    public void addFriend(@PathVariable("id") Long friendId1, @PathVariable("friendId") Long friendId2) {
-        log.info("Добавление пользователя с id = " + friendId2 + " в друзья к пользователю с id = " + friendId1);
-        friendsService.addFriend(friendId1, friendId2);
+    public void addFriend(@PathVariable("id") Long id, @PathVariable("friendId") Long friendId) {
+        log.info("Добавление пользователя с id = " + id + " в друзья к пользователю с id = " + friendId);
+        friendsService.addFriend(friendId, id);
     }
 
     // Удаление из списка друзей
@@ -43,7 +43,8 @@ public class FriendsController {
     @GetMapping("/{id}/friends")
     public List<User> getFriends(@PathVariable("id") Long friendId) {
         log.info("Список друзей пользователя с id = " + friendId);
-        return friendsService.getFriends(friendId);
+        List<User> list = friendsService.getFriends(friendId);
+        return list;
     }
 
     // Показ общего списока друзей с другим пользователем

@@ -18,15 +18,12 @@ public class UserServiceFactory {
 
     public UserService getUserService() {
         String storageType = environment.getProperty("film.storage.type", "memory");
-        log.info("Selecting user service for storage type: {}", storageType);
-
         try {
             return switch (storageType.toLowerCase()) {
                 case "db" -> applicationContext.getBean("userDBService", UserService.class);
                 default -> applicationContext.getBean("userIMService", UserService.class);
             };
         } catch (BeansException ex) {
-            log.error("Failed to get user service implementation for type: {}", storageType, ex);
             throw new IllegalStateException("No available user service implementation for type: " + storageType, ex);
         }
     }

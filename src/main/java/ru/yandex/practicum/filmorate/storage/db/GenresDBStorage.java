@@ -28,7 +28,7 @@ public class GenresDBStorage extends BaseRepository<Genre>  implements GenresSto
     }
 
     @Override
-    public Genre getByID(Long id) {
+    public Genre getByID(int id) {
         return findOne(GET_BY_ID_QUERY, id);
     }
 

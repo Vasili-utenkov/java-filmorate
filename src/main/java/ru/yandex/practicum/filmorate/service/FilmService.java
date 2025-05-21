@@ -15,4 +15,6 @@ public interface FilmService {
     //    обновление фильма;
     Film updateFilm(Film newFilm);
 
+    Film getFilmByID(Long id);
+
 }

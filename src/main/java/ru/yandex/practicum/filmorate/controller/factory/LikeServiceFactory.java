@@ -18,15 +18,12 @@ public class LikeServiceFactory {
 
     public LikeService getLikeService() {
         String storageType = environment.getProperty("film.storage.type", "memory");
-        log.info("Selecting like service for storage type: {}", storageType);
-
         try {
             return switch (storageType.toLowerCase()) {
                 case "db" -> applicationContext.getBean("likeDBService", LikeService.class);
                 default -> applicationContext.getBean("likeIMService", LikeService.class);
             };
         } catch (BeansException ex) {
-            log.error("Failed to get like service implementation for type: {}", storageType, ex);
             throw new IllegalStateException("No available like service implementation for type: " + storageType, ex);
         }
     }

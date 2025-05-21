@@ -20,16 +20,18 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
             = "DELETE FROM friend WHERE sideTwo = ?";
     //     добавление в друзья (взаимное)
     private static final String ADD_FRIEND_QUERY
-            = "INSERT INTO friend (sideOne, sideTwo, isConfirm) VALUES (?, ?, ?)";
+            = "INSERT INTO friend (sideOne, sideTwo) VALUES (?, ?)";
     //     удаление из друзей (взаимное)
     private static final String REMOVE_FRIEND_QUERY
             = "DELETE FROM friend WHERE sideOne = ? AND sideTwo = ?";
     // список друзей
     private static final String GET_FRIENDS_QUERY = """
-            SELECT * FROM users AS u
-            INNER JOIN friend AS uf ON u.id = uf.sideOne WHERE uf.sideOne = ? AND uf.isConfirm = true""";
+            SELECT u.*
+            FROM users AS u JOIN friend AS f ON u.id = f.sideTwo
+            WHERE f.sideOne = ?
+            """;
     //     вывод списка общих друзей
-    private static final String GET_COMMON_FRIEND_QUERY = "SELECT u.* FROM Users u " +
+    private static final String GET_COMMON_FRIENDS_QUERY = "SELECT u.* FROM Users u " +
             "JOIN Friend f1 ON f1.sideTwo = u.id AND f1.sideOne = ? " +
             "JOIN Friend f2 ON f2.sideTwo = u.id AND f2.sideOne = ? " +
             "WHERE f1.isConfirm = true AND f2.isConfirm = true";
@@ -59,15 +61,13 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
     //     добавление в друзья (взаимное)
     @Override
     public void addFriend(Long friendId1, Long friendId2) {
-        insert(ADD_FRIEND_QUERY, false, friendId1, friendId2, true);
-        insert(ADD_FRIEND_QUERY, false, friendId2, friendId1, false);
+        insert(ADD_FRIEND_QUERY, false, friendId1, friendId2);
     }
 
     // удаление из друзей (взаимное)
     @Override
     public void removeFriend(Long friendId1, Long friendId2) {
         delete(REMOVE_FRIEND_QUERY, friendId1, friendId2);
-        delete(REMOVE_FRIEND_QUERY, friendId2, friendId1);
     }
 
     // список друзей
@@ -83,11 +83,11 @@ public class FriendsDBStorage extends BaseRepository<User> implements FriendsSto
     // вывод списка общих друзей
     @Override
     public List<Long> getCommonFriendsID(Long friendId1, Long friendId2) {
-        return getIDList(GET_COMMON_FRIEND_QUERY, friendId1, friendId2);
+        return getIDList(GET_COMMON_FRIENDS_QUERY, friendId1, friendId2);
     }
 
     public List<User> getCommonFriends(Long friendId1, Long friendId2) {
-        return findMany(GET_COMMON_FRIEND_QUERY, friendId1, friendId2);
+        return findMany(GET_COMMON_FRIENDS_QUERY, friendId1, friendId2);
     }
 
 

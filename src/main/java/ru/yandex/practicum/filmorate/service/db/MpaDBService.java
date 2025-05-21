@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service.db;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.service.MpaService;
 import ru.yandex.practicum.filmorate.storage.db.MpaDBStorage;
@@ -26,6 +27,10 @@ public class MpaDBService implements MpaService {
 
     @Override
     public MPA getByID(Long id) {
-        return mpaDBStorage.getByID(id);
+        MPA mpa = mpaDBStorage.getByID(id);
+        if (mpa == null) {
+            throw new NotFoundException("mpa не наден");
+        }
+        return mpa;
     }
 }

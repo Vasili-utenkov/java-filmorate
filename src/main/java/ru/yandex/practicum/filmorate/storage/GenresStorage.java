@@ -9,6 +9,6 @@ public interface GenresStorage {
     List<Genre> getAll();
 
     // объект содержащий жанр с идентификатором id
-    Genre getByID(Long id);
+    Genre getByID(int id);
 
 }

@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service.db;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.MPA;
@@ -38,36 +39,43 @@ public class FilmDBService implements FilmService {
     // получение всех фильмов.
     @Override
     public Collection<Film> getAllFilms() {
-        return filmStorage.getAll();
+        Collection<Film> films = filmStorage.getAll();
+        return films;
     }
 
     //  добавление фильма;
     @Override
     public Film addFilm(Film film) {
-        // Если mpaID указан - связываем с MPA
-        if (film.getMpaID() != null) {
-            MPA mpa = mpaStorage.getByID(film.getMpaID().getId());
-            // ++ Дополнительная обработка при необходимости
+        MPA mpa;
+        if (film.getMpa() != null) {
+            mpa = mpaStorage.getByID(film.getMpa().getId());
+            if (mpa == null) {
+                throw new NotFoundException("mpa не наден");
+            }
+        } else {
+            mpa = new MPA();
         }
 
         Film finalFilm = filmStorage.create(film);
+
         // Обработка жанров
         if (film.hasGenres()) {
             film.getGenres().stream()
-                    .filter(Objects::nonNull) // Фильтрация null жанров
                     .forEach(genre -> {
                         Genre existingGenre = genresStorage.getByID(genre.getId());
                         if (existingGenre != null) {
                             filmGenreStorage.createFilmGenres(finalFilm.getId(), existingGenre.getId());
+                        } else {
+                            throw new NotFoundException("Genres не наден");
                         }
                     });
         }
 
-        if (filmGenreStorage.findAllByFilmId(finalFilm.getId()) != null) {
-            Set<Genre> genres = new LinkedHashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId()));  // Сохраняем порядок
-            finalFilm.setGenres(genres);
-        }
-
+// Создаем Set (пустой, если жанров нет)
+        Set<Genre> genres = new LinkedHashSet<>(filmGenreStorage.findAllByFilmId(finalFilm.getId()));
+        finalFilm.setGenres(genres);
+        finalFilm.setMpa(mpa);
+        filmStorage.update(finalFilm);
         return finalFilm;
     }
 
@@ -78,9 +86,8 @@ public class FilmDBService implements FilmService {
         // Проверяем существование фильма
         filmStorage.checkNullId(newFilm.getId());
 
-        if (newFilm.getMpaID() != null) {
-            MPA mpa = mpaStorage.getByID(newFilm.getMpaID().getId());
-            // ++ Дополнительная обработка при необходимости
+        if (newFilm.getMpa() != null) {
+            MPA mpa = mpaStorage.getByID(newFilm.getMpa().getId());
         }
 
         Film finalFilm = filmStorage.update(newFilm);
@@ -96,4 +103,9 @@ public class FilmDBService implements FilmService {
         return finalFilm;
 
     }
+
+    public Film getFilmByID(Long id) {
+        return filmStorage.getById(id);
+    }
+
 }

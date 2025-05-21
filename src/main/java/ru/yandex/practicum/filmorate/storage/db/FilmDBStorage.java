@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
+import ru.yandex.practicum.filmorate.mappers.FilmResultSetExtractor;
 import ru.yandex.practicum.filmorate.mappers.repository.BaseRepository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
@@ -21,12 +22,22 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     private static final String UPDATE_QUERY =
             "UPDATE Film SET name = ?, description = ?, releaseDate = ?,duration = ?, mpaID = ? WHERE id = ?";
     private static final String DELETE_QUERY = "DELETE Film WHERE id = ?";
-    private static final String GET_BY_ID_QUERY = "SELECT * FROM Film WHERE id = ?";
-    private static final String GET_ALL_QUERY = "SELECT * FROM Film";
+    private static final String GET_BY_ID_QUERY = """
+            SELECT f.*, m.id AS mpa_id, m.name AS mpa_name, g.id AS genre_id, g.name AS genre_name
+            FROM Film f
+            LEFT JOIN MPA m ON f.mpaID = m.id
+            LEFT JOIN FilmGenre fg ON f.id = fg.filmID
+            LEFT JOIN Genres g ON fg.genreID = g.id
+            WHERE f.id = ?
+            ORDER BY fg.id ASC
+            """;
+//    private static final String GET_ALL_QUERY = "SELECT f.*, m.name as mpa_name FROM Film f LEFT JOIN MPA m ON f.mpaID = m.id";
+private static final String GET_ALL_QUERY = "SELECT f.*, m.id AS mpa_id, m.name AS mpa_name FROM Film f LEFT JOIN MPA m ON f.mpaID = m.id";
 
     private static final String GET_TOP_POPULAR_FILMS_QUERY = """
-            SELECT f.id, f.name, f.description, f.releaseDate, f.duration, f.mpaID, COUNT(l.userid) AS likes_count
+            SELECT f.id, f.name, f.description, f.releaseDate, f.duration, f.mpaID, m.ID as mpa_id, m.name as mpa_name,COUNT(l.userid) AS likes_count
             FROM film f LEFT JOIN likes l ON f.id = l.filmid
+            LEFT JOIN MPA m ON f.mpaID = m.id
             GROUP BY
                 f.id
             ORDER BY
@@ -42,8 +53,6 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     // создание фильма
     @Override
     public Film create(Film film) {
-        log.info("Запрос добавления фильма " + film);
-
         long id = insert(
                 CREATE_QUERY,
                 true,
@@ -51,7 +60,7 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
                 film.getDescription(),
                 java.sql.Date.valueOf(film.getReleaseDate()),
                 film.getDuration(),
-                film.getMpaID() != null ? film.getMpaID().getId() : null
+                film.getMpa() != null ? film.getMpa().getId() : null
         );
         film.setId(id);
         log.info("Добавили фильм " + film);
@@ -61,15 +70,13 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     // Изменение фильма
     @Override
     public Film update(Film film) {
-        log.info("Запрос изменения фильма " + film);
-
         update(
                 UPDATE_QUERY,
                 film.getName(),
                 film.getDescription(),
                 java.sql.Date.valueOf(film.getReleaseDate()),
                 film.getDuration(),
-                film.getMpaID() != null ? film.getMpaID().getId() : null,
+                film.getMpa() != null ? film.getMpa().getId() : null,
                 film.getId()
         );
         log.info("Изменили данные по фильму " + film);
@@ -87,14 +94,15 @@ public class FilmDBStorage extends BaseRepository<Film> implements FilmStorage {
     @Override
     public Film getById(long id) {
         log.info("Получение фильма с id = " + id);
-        return findOne(GET_BY_ID_QUERY, id);
+        return jdbc.query(GET_BY_ID_QUERY, new FilmResultSetExtractor(), id);
     }
 
     // Получение списка фильмов
     @Override
     public Collection<Film> getAll() {
         log.info("Запрос списка фильмов");
-        return findMany(GET_ALL_QUERY);
+        Collection<Film> films = findMany(GET_ALL_QUERY);
+        return films;
     }
 
     // Получение списка ID самых популярных фильмов по количеству лайков

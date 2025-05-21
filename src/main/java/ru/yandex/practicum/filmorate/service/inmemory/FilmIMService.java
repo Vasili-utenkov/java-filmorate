@@ -43,4 +43,8 @@ public class FilmIMService implements FilmService {
         return filmStorage.update(newFilm);
     }
 
+    @Override
+    public Film getFilmByID(Long id) {
+        return null;
+    }
 }

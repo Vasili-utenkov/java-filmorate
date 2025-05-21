@@ -34,6 +34,15 @@ public class FilmController {
         return filmService.getAllFilms();
     }
 
+    //  получение всех фильмов.
+    @GetMapping("{id}")
+    public Film getFilmByID(@PathVariable("id") Long id) {
+        log.info("Запрос фильма с кодом " + id);
+        Film film = filmService.getFilmByID(id);
+        return film;
+    }
+
+
     //  добавление фильма;
     @PostMapping
     public Film addFilm(@Valid @RequestBody Film film) {

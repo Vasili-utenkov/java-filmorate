@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.service.db;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.User;
@@ -9,6 +10,7 @@ import ru.yandex.practicum.filmorate.storage.db.UserDBStorage;
 
 import java.util.List;
 
+@Slf4j
 @Service("friendsDBService")
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
 public class FriendsDBService implements FriendsService {
@@ -33,8 +35,8 @@ public class FriendsDBService implements FriendsService {
     public void addFriend(Long friendId1, Long friendId2) {
         userStorage.checkNullId(friendId1);
         userStorage.checkNullId(friendId2);
+        friendsStorage.addFriend(friendId2, friendId1);
 
-        friendsStorage.addFriend(friendId1, friendId2);
     }
 
     //     удаление из друзей

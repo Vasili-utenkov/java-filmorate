@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS MPA CASCADE;
 CREATE TABLE MPA (
-                     id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                     id  INT PRIMARY KEY,
                      name varchar(255) NOT NULL
 );
 
@@ -18,7 +18,7 @@ CREATE TABLE Friend (
                         id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                         sideOne BIGINT REFERENCES Users(id) NOT NULL,
                         sideTwo BIGINT REFERENCES Users(id) NOT NULL,
-                        isConfirm boolean  DEFAULT false NOT NULL
+                        isConfirm boolean  DEFAULT true NOT NULL
 );
 
 DROP TABLE IF EXISTS Film CASCADE;
@@ -40,7 +40,7 @@ CREATE TABLE Likes (
 
 DROP TABLE IF EXISTS Genres CASCADE;
 CREATE TABLE Genres (
-                       id  INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                       id  INT PRIMARY KEY,
                        name varchar(255) NOT NULL
 );
 

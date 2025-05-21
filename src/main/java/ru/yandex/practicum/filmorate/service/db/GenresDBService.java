@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.service.db;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.service.GenresService;
 import ru.yandex.practicum.filmorate.storage.db.GenresDBStorage;
@@ -27,7 +28,12 @@ public class GenresDBService implements GenresService {
     }
 
     @Override
-    public Genre getByID(Long id) {
-        return genresStorage.getByID(id);
+    public Genre getByID(int id) {
+        Genre genre = genresStorage.getByID(id);
+        if (genre == null) {
+            throw new NotFoundException("genre не наден");
+        }
+        return genre;
+
     }
 }

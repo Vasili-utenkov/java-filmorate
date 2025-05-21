@@ -20,8 +20,9 @@ public class LikesDBStorage extends BaseRepository<Like> implements LikesStorage
     private static final String REMOVE_LIKE_QUERY =
             "DELETE FROM Likes WHERE filmID = ? AND userID = ?";
     private static final String GET_TOP_POPULAR_FILMS_ID_QUERY = """
-            SELECT f.id, f.name, f.description, f.releaseDate, f.duration, f.mpaID, r.name AS mpa_name, COUNT(l.userid) AS likes_count
+            SELECT f.id, f.name, f.description, f.releaseDate, f.duration, f.mpaID as mpa_id, MPA.name AS mpa_name, COUNT(l.userid) AS likes_count
             FROM film f LEFT JOIN likes l ON f.id = l.filmID
+            LEFT JOIN MPA l ON MPA.id = f.mpaID
             GROUP BY
                 f.id
             ORDER BY

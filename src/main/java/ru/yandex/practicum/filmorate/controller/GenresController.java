@@ -34,7 +34,7 @@ public class GenresController {
 
 // объект содержащий жанр с идентификатором id
     @GetMapping("/{id}")
-    public Genre getByID(@PathVariable("id") Long id) {
+    public Genre getByID(@PathVariable("id") int id) {
         log.info("Жанр с id = " + id);
         return genresService.getByID(id);
     }

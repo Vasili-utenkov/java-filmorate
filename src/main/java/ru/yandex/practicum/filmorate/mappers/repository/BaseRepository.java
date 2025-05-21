@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.filmorate.exception.InternalServerException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -37,12 +38,13 @@ public class BaseRepository<T> {
                 params);
     }
 
-
+    @Transactional
     protected boolean delete(String query, Object... params) {
         int rowsDeleted = jdbc.update(query, params);
         return rowsDeleted > 0;
     }
 
+    @Transactional
     protected void update(String query, Object... params) {
         int rowsUpdated = jdbc.update(query, params);
         if (rowsUpdated == 0) {
@@ -50,6 +52,7 @@ public class BaseRepository<T> {
         }
     }
 
+    @Transactional
     protected long insert(String query, boolean expectGeneratedKey, Object... params) {
         if (expectGeneratedKey) {
             GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
