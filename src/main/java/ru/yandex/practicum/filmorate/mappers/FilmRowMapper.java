@@ -30,7 +30,7 @@ public class FilmRowMapper implements RowMapper<Film> {
 
         MPA mpa = new MPA();
         if (rs.getObject("mpaID") != null) {
-            mpa.setId(rs.getInt("mpaID"));
+            mpa.setId(rs.getInt("mpa_ID"));
         }
         if (rs.getObject("mpa_id") != null) {
             mpa.setId(rs.getInt("mpa_id"));
