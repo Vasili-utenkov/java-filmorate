@@ -1,25 +1,24 @@
 package ru.yandex.practicum.filmorate.storage;
-
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.Collection;
 
 @Component
-public interface UserStorage extends Storage<User> {
+public interface UserStorage {
 
-    @Override
+// Добавление пользователя
     User create(User data);
 
-    @Override
+// Ищменение пользователя
     User update(User data);
 
-    @Override
+// Удаление пользователя
     void delete(long id);
 
-    @Override
+// Получение пользователя по коду id
     User getById(long id);
 
-    @Override
+// Получение списка пользователей
     Collection<User> getAll();
 }

@@ -1,33 +1,16 @@
+-- Р’СЃС‚Р°РІРєР° РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ Genres
+MERGE INTO Genres (id, name) VALUES
+                             (1, 'РљРѕРјРµРґРёСЏ'),
+                             (2, 'Р”СЂР°РјР°'),
+                             (3, 'РњСѓР»СЊС‚С„РёР»СЊРј'),
+                             (4, 'РўСЂРёР»Р»РµСЂ'),
+                             (5, 'Р”РѕРєСѓРјРµРЅС‚Р°Р»СЊРЅС‹Р№'),
+                             (6, 'Р‘РѕРµРІРёРє');
 
-INSERT INTO MPA (name)
-SELECT 'G' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'G');
-
-INSERT INTO MPA (name)
-SELECT 'PG' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'PG');
-
-INSERT INTO MPA (name)
-SELECT 'PG-13' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'PG-13');
-
-INSERT INTO MPA (name)
-SELECT 'R' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'R');
-
-INSERT INTO MPA (name)
-SELECT 'NC-17' WHERE NOT EXISTS (SELECT 1 FROM MPA WHERE name = 'NC-17');
-
-INSERT INTO Genre (name)
-SELECT 'Комедия' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Комедия');
-
-INSERT INTO Genre (name)
-SELECT 'Драма' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Драма');
-
-INSERT INTO Genre (name)
-SELECT 'Мультфильм' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Мультфильм');
-
-INSERT INTO Genre (name)
-SELECT 'Триллер' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Триллер');
-
-INSERT INTO Genre (name)
-SELECT 'Документальный' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Документальный');
-
-INSERT INTO Genre (name)
-SELECT 'Боевик' WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE name = 'Боевик');
+-- Р’СЃС‚Р°РІРєР° РґР°РЅРЅС‹С… РІ С‚Р°Р±Р»РёС†Сѓ MPA
+MERGE INTO MPA (id, name) VALUES
+                          (1, 'G'),
+                          (2, 'PG'),
+                          (3, 'PG-13'),
+                          (4, 'R'),
+                          (5, 'NC-17');

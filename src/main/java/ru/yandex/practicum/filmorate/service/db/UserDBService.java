@@ -1,0 +1,58 @@
+package ru.yandex.practicum.filmorate.service.db;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.db.UserDBStorage;
+import java.util.Collection;
+
+@Slf4j
+@Service("userDBService")
+@ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
+public class UserDBService implements UserService {
+
+    private final UserDBStorage userStorage;
+
+    public UserDBService(UserDBStorage userStorage) {
+        this.userStorage = userStorage;
+    }
+
+    /**
+     * получение списка всех пользователей.
+     *
+     * @return Collection<User>
+     */
+    @Override
+    public Collection<User> getAllUsers() {
+        return userStorage.getAll();
+    }
+
+    /**
+     * создание пользователя;
+     *
+     * @param user
+     * @return User
+     */
+    @Override
+    public User create(User user) {
+        return userStorage.create(user);
+    }
+
+    /**
+     * обновление пользователя;
+     *
+     * @param newUser
+     * @return User
+     */
+    @Override
+    public User update(User newUser) {
+        // Проверяем существование пользователя
+        userStorage.checkNullId(newUser.getId());
+        return userStorage.update(newUser);
+    }
+
+
+
+}

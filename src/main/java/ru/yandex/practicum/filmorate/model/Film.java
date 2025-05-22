@@ -7,15 +7,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.validator.DateAfterOrEqual;
 import ru.yandex.practicum.filmorate.validator.DescriptionIsNullOrLessThen;
-
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class Film extends AbstaractType {
+public class Film {
     private Long id;
     //    название —
     @NotBlank(message = "Название фильма не может быть пустым")
@@ -36,8 +36,14 @@ public class Film extends AbstaractType {
     @NotNull(message = "Продолжительность фильма должна быть задана")
     @Min(value = 1, message = "Продолжительность фильма должна быть положительным числом")
     private Integer duration;
+
     // категория фильма
+    MPA mpa;
 
-    private int categoryID;
+    Set<Long> likes;
+    Set<Genre> genres;
 
+    public boolean hasGenres() {
+        return genres != null;
+    }
 }
