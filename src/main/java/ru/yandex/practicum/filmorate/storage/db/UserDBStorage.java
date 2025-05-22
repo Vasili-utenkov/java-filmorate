@@ -80,7 +80,6 @@ public class UserDBStorage extends BaseRepository<User> implements UserStorage {
         if (this.getById(userID) == null) {
             throw new NotFoundException(String.format("Пользователь с id %d не найден", userID));
         }
-
     }
 
 }

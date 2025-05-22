@@ -15,23 +15,38 @@ import java.util.List;
 @ConditionalOnProperty(name = "film.storage.type", havingValue = "db")
 public class LikeDBService implements LikeService {
 
-    private FilmDBStorage filmStorage;
-    private LikesDBStorage likesStorage;
+    private final FilmDBStorage filmStorage;
+    private final LikesDBStorage likesStorage;
+    private final UserDBStorage userStorage;
 
-    public LikeDBService(FilmDBStorage filmStorage, LikesDBStorage likesIMStorage, UserDBStorage userStorage) {
+    public LikeDBService(FilmDBStorage filmStorage,
+                         LikesDBStorage likesIMStorage,
+                         UserDBStorage userStorage) {
         this.filmStorage = filmStorage;
         this.likesStorage = likesIMStorage;
+        this.userStorage = userStorage;
     }
 
     // Добавление лайка фильму
     @Override
+    // Проверяем существование фильма
     public void addLike(Long filmId, Long userId) {
+        // Проверяем существование фильма
+        filmStorage.checkNullId(filmId);
+        // Проверяем существование пользователя
+        userStorage.checkNullId(userId);
         likesStorage.addLike(userId, filmId);
     }
 
     // Удаление лайка у фильма
     @Override
+
+
     public void removeLike(Long filmId, Long userId) {
+        // Проверяем существование фильма
+        filmStorage.checkNullId(filmId);
+        // Проверяем существование пользователя
+        userStorage.checkNullId(userId);
         likesStorage.removeLike(filmId, userId);
     }
 

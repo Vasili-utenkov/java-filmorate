@@ -22,7 +22,7 @@ public class UserDBService implements UserService {
     /**
      * получение списка всех пользователей.
      *
-     * @return
+     * @return Collection<User>
      */
     @Override
     public Collection<User> getAllUsers() {
@@ -33,7 +33,7 @@ public class UserDBService implements UserService {
      * создание пользователя;
      *
      * @param user
-     * @return
+     * @return User
      */
     @Override
     public User create(User user) {
@@ -44,7 +44,7 @@ public class UserDBService implements UserService {
      * обновление пользователя;
      *
      * @param newUser
-     * @return
+     * @return User
      */
     @Override
     public User update(User newUser) {

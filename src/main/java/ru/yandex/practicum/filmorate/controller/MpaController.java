@@ -26,8 +26,6 @@ public class MpaController {
     }
 
     // список объектов содержащих жанр
-// GET /genres
-
     @GetMapping("")
     public List<MPA> getAll() {
         log.info("Список жанров.");
@@ -35,8 +33,6 @@ public class MpaController {
     }
 
 // объект содержащий жанр с идентификатором id
-// GET /genres/{id}
-
     @GetMapping("/{id}")
     public MPA getByID(@PathVariable("id") Long id) {
         log.info("Жанр с id = " + id);

@@ -7,21 +7,21 @@ import java.util.Collection;
 public interface UserService {
     /**  получение списка всех пользователей.
      *
-     * @return
+     * @return Collection<User>
      */
     Collection<User> getAllUsers();
 
     /**   создание пользователя;
      *
      * @param user
-     * @return
+     * @return User
      */
     User create(User user);
 
     /**    обновление пользователя;
      *
      * @param newUser
-     * @return
+     * @return User
      */
     User update(User newUser);
 }

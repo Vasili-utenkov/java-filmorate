@@ -18,7 +18,6 @@ import java.util.*;
 public class FilmDBService implements FilmService {
 
     private final FilmDBStorage filmStorage;
-    private final LikesDBStorage likesStorage;
     private final MpaDBStorage mpaStorage;
     private final FilmGenreDBStorage filmGenreStorage;
     private final GenresDBStorage genresStorage;
@@ -30,7 +29,6 @@ public class FilmDBService implements FilmService {
                          FilmGenreDBStorage filmGenreStorage,
                          GenresDBStorage genresStorage) {
         this.filmStorage = filmStorage;
-        this.likesStorage = likesStorage;
         this.mpaStorage = mpaStorage;
         this.filmGenreStorage = filmGenreStorage;
         this.genresStorage = genresStorage;
@@ -50,7 +48,7 @@ public class FilmDBService implements FilmService {
         if (film.getMpa() != null) {
             mpa = mpaStorage.getByID(film.getMpa().getId());
             if (mpa == null) {
-                throw new NotFoundException("mpa не наден");
+                throw new NotFoundException(String.format("MPA с кодом %d не найден", film.getMpa().getId()));
             }
         } else {
             mpa = new MPA();
@@ -66,7 +64,7 @@ public class FilmDBService implements FilmService {
                         if (existingGenre != null) {
                             filmGenreStorage.createFilmGenres(finalFilm.getId(), existingGenre.getId());
                         } else {
-                            throw new NotFoundException("Genres не наден");
+                            throw new NotFoundException(String.format("Genres с кодом %d не найден",genre.getId()));
                         }
                     });
         }
