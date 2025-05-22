@@ -29,7 +29,7 @@ public class MpaDBService implements MpaService {
     public MPA getByID(Long id) {
         MPA mpa = mpaDBStorage.getByID(id);
         if (mpa == null) {
-            throw new NotFoundException("mpa не наден");
+            throw new NotFoundException(String.format("MPA с кодом %d не найден", id));
         }
         return mpa;
     }
